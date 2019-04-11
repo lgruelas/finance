@@ -20,6 +20,11 @@ from finance import views
 
 router = routers.DefaultRouter()
 router.register(r'wallets', views.WalletView, 'wallet')
+router.register(r'cards', views.CreditCardView, 'credit_card')
+router.register(r'accounts', views.BankAccountView, 'bank_accounts')
+router.register(r'expenses', views.ExpensesView, 'expenses')
+router.register(r'incomes', views.IncomesView, 'incomes')
+router.register(r'transfers', views.TransferView, 'transfers')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

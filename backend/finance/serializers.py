@@ -11,3 +11,30 @@ class WalletSerializers(serializers.ModelSerializer):
     class Meta:
         model = Wallet
         fields = ('balance', 'source')
+
+class BankAccountSerializers(serializers.ModelSerializer):
+    source = SourceSerializers(read_only=True)
+    class Meta:
+        model = BankAccount
+        fields = ('balance', 'source', 'bank'),
+
+class CreditCardSerializers(serializers.ModelSerializer):
+    source = SourceSerializers(read_only=True)
+    class Meta:
+        model = CreditCard
+        fields = ('__all__')
+
+class ExpensesSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Expenses
+        fields = ('__all__')
+
+class IncomesSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Incomes
+        fields = ('__all__')
+
+class TransferSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Transfer
+        fields = ('__all__')
