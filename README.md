@@ -52,7 +52,10 @@ cd frontend
 npm install
 ```
 ## Dev run
-
+to run the frontend and the backend just use:
+```bash
+honcho start
+```
 
 ## Built With
 

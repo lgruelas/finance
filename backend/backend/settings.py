@@ -104,7 +104,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 CORS_ORIGIN_WHITELIST = (
-    'localhost:3000/'
+    'localhost:5100/'
 )
 
 # Internationalization

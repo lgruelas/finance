@@ -16,7 +16,7 @@ class BankAccountSerializers(serializers.ModelSerializer):
     source = SourceSerializers(read_only=True)
     class Meta:
         model = BankAccount
-        fields = ('balance', 'source', 'bank'),
+        fields = ('__all__')
 
 class CreditCardSerializers(serializers.ModelSerializer):
     source = SourceSerializers(read_only=True)
