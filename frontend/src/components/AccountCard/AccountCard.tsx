@@ -1,6 +1,8 @@
 import React from 'react';
 import { Card, BankAccount, Account } from './../../models/accounts';
+import { AccountCardPresentational } from './AccountCardPresentational';
 import './AccountCard.css';
+
 
 interface Props {
     account: Account
@@ -20,34 +22,24 @@ function determineIfBankAccount(toBeDetermined: Account): toBeDetermined is Bank
     return false
 }
 
-type Type = {
-    kind: string,
-    color: string
-}
-
-const formatCurrency = (input: number) : string => {
-    return (new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD'
-    }).format(input));
-}
-
 export const AccountCard: React.SFC<Props> = (props) => {
-    const type_: Type = determineIfCard(props.account) ? {kind: "card", color: "red"} : determineIfBankAccount(props.account) ? {kind: "bank", color: "green"}  : {kind: "wallet", color: "blue"};
-
-    const getName = (kind: string, account: Account): string => {
-        if (kind === "wallet") {
+    const getName = (color: string, account: Account): string => {
+        if (color === "blue") {
             return "Wallet"
         } else {
             return account.bank
         }
     }
 
+    const formatCurrency = (input: number) : string => {
+        return (new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD'
+        }).format(input));
+    }
+
+    const color: string = determineIfCard(props.account) ? "red" : determineIfBankAccount(props.account) ? "green" : "blue";
     return (
-        <div className="card">
-            <p className="account-text" style={{color: type_.color}}>{determineIfCard(props.account) ? formatCurrency(props.account.used) : formatCurrency(props.account.balance)}</p>
-            {getName(type_.kind, props.account)}
-            <div><img src={"../../assets/imgs/" + props.account.source.name + ".png"} /></div>
-        </div>
+        <AccountCardPresentational name={props.account.source.name} bank={getName(color, props.account)} ammount={determineIfCard(props.account) ? formatCurrency(props.account.used) : formatCurrency(props.account.balance)} color={color}/>
     );
 }

@@ -1,8 +1,20 @@
 import React from 'react';
-import { Row, Col } from 'reactstrap';
+import { GlobalAmmountPresentational } from './GlobalAmmountPresentational';
+import { Wallet, Card, BankAccount } from './../../models/accounts';
 import './GlobalAmount.css';
 
-export class GlobalAmount extends React.Component <any,any>{
+type State = {
+    total: number;
+}
+
+type Props = {
+    bank_account: Array<BankAccount>;
+    wallet: Array<Wallet>;
+    card: Array<Card>;
+}
+
+
+export class GlobalAmount extends React.Component <Props,State>{
     constructor(props: any) {
         super(props);
         this.state = {
@@ -30,19 +42,7 @@ export class GlobalAmount extends React.Component <any,any>{
 
     render() {
         return(
-            <Row>
-                <Col md={4}>
-                    <div className="card main-card">
-                        <p className="main-amount"> {
-                            new Intl.NumberFormat('en-US', {
-                                style: 'currency',
-                                currency: 'USD'
-                            }).format(this.state.total)
-                            }</p>
-                        <p>Dinero total</p>
-                    </div>
-                </Col>
-            </Row>
+            <GlobalAmmountPresentational total={this.state.total} />
         );
     }
 }
