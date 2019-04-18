@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const URL = 'http://localhost:8000/api/v1/';
+const URL = process.env.REACT_APP_API_URL;
 
 export const getBankAccounts = () => {
     return axios.get(URL + 'accounts');

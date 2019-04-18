@@ -9,3 +9,7 @@
 .accounts-row {
     margin: 10px 0px 10px 0px;
 }
+
+.button-modal-container {
+    display: inline-block;
+}

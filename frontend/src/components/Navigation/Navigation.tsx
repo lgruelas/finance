@@ -33,19 +33,19 @@ export class Navigation extends React.Component<any,any> {
         return (
             <div>
                 <Navbar className="finance-navbar" color="light" light expand="md">
-                <NavbarBrand href="/">reactstrap</NavbarBrand>
+                <NavbarBrand href="/">Finance Viewer</NavbarBrand>
                 <NavbarToggler onClick={this.toggle} />
                 <Collapse isOpen={this.state.isOpen} navbar>
                     <Nav className="ml-auto" navbar>
                     <NavItem>
-                        <NavLink href="/components/">Components</NavLink>
+                        <NavLink href="/">Movements</NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink href="https://github.com/reactstrap/reactstrap">GitHub</NavLink>
+                        <NavLink href="/">Transfers</NavLink>
                     </NavItem>
                     <UncontrolledDropdown nav inNavbar>
                         <DropdownToggle nav caret>
-                        Options
+                            Categories
                         </DropdownToggle>
                         <DropdownMenu right>
                         <DropdownItem>
@@ -67,3 +67,8 @@ export class Navigation extends React.Component<any,any> {
         );
     }
 }
+
+
+
+
+

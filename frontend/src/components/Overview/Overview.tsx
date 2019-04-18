@@ -5,7 +5,8 @@ import { Wallet, BankAccount, Card } from './../../models/accounts';
 import { AccountCard } from './../AccountCard/AccountCard';
 import './Overview.css';
 import { Row, Col } from 'reactstrap';
-import { AddExpenseButton } from './../AddExpenseButton/AddExpenseButton';
+import { AddExpenseButton } from './../AddExpense/AddExpenseButton';
+import { AddTransferButton } from './../AddTransfer/AddTransferButton';
 import { Account } from './../../models/accounts';
 
 interface State {
@@ -43,7 +44,8 @@ export class Overview extends React.Component<any,State> {
     render() {
         return (
             <div className="container">
-                <AddExpenseButton />
+                <AddExpenseButton />{" "}
+                <AddTransferButton />
                 <GlobalAmount bank_account={this.state.bank_accounts} card={this.state.cards} wallet={this.state.wallets}/>
                 <Row className="accounts-row">
                     {this.state.bank_accounts.map(function(element: BankAccount)
