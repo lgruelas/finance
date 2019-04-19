@@ -1,24 +1,22 @@
 import React from 'react';
 import { AddExpenseForm } from './AddExpenseForm';
-//import { postExpense } from './../../services/Expenses';
+import { postExpense } from './../../services/Expenses';
+import { Expense } from './../../models/expenses/Expense';
 
-type State = {
-    amount: string;
-    description: string;
-    account: string;
-    category: string;
-    isPayed: boolean;
-}
-
-export class AddExpenseFormContainer extends React.Component<any,State> {
-    constructor(props: any) {
+export class AddExpenseFormContainer extends React.Component<{},Expense> {
+    constructor(props: {}) {
         super(props);
+        let today = new Date();
+        let dateFormat = (date: Date): string => {
+            return `${date.getFullYear()}-${date.getMonth()>8?"":0}${date.getMonth()+1}-${date.getDate()}`
+        }
         this.state = {
             amount: '',
             description: '',
             account: '',
             category: '',
-            isPayed: false
+            is_payed: false,
+            date: dateFormat(today)
         }
 
         this.OnChangeAccount = this.OnChangeAccount.bind(this);
@@ -26,6 +24,8 @@ export class AddExpenseFormContainer extends React.Component<any,State> {
         this.OnChangeCategory = this.OnChangeCategory.bind(this);
         this.OnChangeDescription = this.OnChangeDescription.bind(this);
         this.OnChangeIsPayed = this.OnChangeIsPayed.bind(this);
+        this.OnChangeDate = this.OnChangeDate.bind(this);
+        this.OnSumbit = this.OnSumbit.bind(this);
     }
 
     OnChangeAmount(e: React.ChangeEvent<HTMLInputElement>) {
@@ -44,8 +44,7 @@ export class AddExpenseFormContainer extends React.Component<any,State> {
     }
 
     OnChangeIsPayed(e: React.ChangeEvent<HTMLInputElement>) {
-        e.preventDefault();
-        this.setState({isPayed: e.target.checked});
+        this.setState(prevState => ({is_payed: !prevState.is_payed}));
     }
 
     OnChangeCategory(e: React.ChangeEvent<HTMLInputElement>) {
@@ -53,9 +52,16 @@ export class AddExpenseFormContainer extends React.Component<any,State> {
         this.setState({category: e.target.value});
     }
 
+    OnChangeDate(e: React.ChangeEvent<HTMLInputElement>) {
+        e.preventDefault();
+        this.setState({date: e.target.value})
+    }
+
     OnSumbit(e: React.FormEvent<HTMLFormElement>){
         e.preventDefault();
-        console.log('submitting');
+        postExpense(this.state).then(result => {
+            console.log('ready');
+        })
     }
 
     render() {
@@ -64,8 +70,9 @@ export class AddExpenseFormContainer extends React.Component<any,State> {
                 handleChangeAccount={this.OnChangeAccount} account_value={this.state.account}
                 handleChangeAmount={this.OnChangeAmount} amount_value={this.state.amount}
                 handleChangeDescription={this.OnChangeDescription} description_value={this.state.description}
-                handleChangeIsPayed={this.OnChangeIsPayed} isPayed_value={this.state.isPayed}
+                handleChangeIsPayed={this.OnChangeIsPayed} isPayed_value={this.state.is_payed}
                 handleChangeCategory={this.OnChangeCategory} category_value={this.state.category}
+                handleChangeDate={this.OnChangeDate} date_value={this.state.date}
                 handleOnSubmit={this.OnSumbit}
             />
         );

@@ -7,12 +7,14 @@ type Props = {
     handleChangeAccount: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleChangeIsPayed: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleChangeCategory: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    handleChangeDate: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleOnSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
     amount_value: string;
     description_value: string;
     account_value: string;
     category_value: string;
-    isPayed_value: boolean; //have to solve this value
+    isPayed_value: boolean;
+    date_value: string;
 }
 
 export const AddExpenseForm: React.SFC<Props> = props => {
@@ -52,12 +54,20 @@ export const AddExpenseForm: React.SFC<Props> = props => {
                 </FormGroup>
                 </Col>
             </Row>
-            <FormGroup check>
-            <Label check>
-                <Input type="checkbox" checked={props.isPayed_value} onChange={props.handleChangeIsPayed} />{' '}
-                Payed?
-            </Label>
-            </FormGroup>
+            <Row>
+                <Col xs={6}>
+                <Label for="expense-date">Date</Label>
+                <Input type="date" name="date" id="expense-date" placeholder="Date" value={props.date_value} onChange={props.handleChangeDate}/>
+                </Col>
+                <Col xs={6}>
+                <FormGroup check>
+                <Label check>
+                    <Input type="checkbox" checked={props.isPayed_value} onChange={props.handleChangeIsPayed} />{' '}
+                    Payed?
+                </Label>
+                </FormGroup>
+                </Col>
+            </Row>
         </Form>
     );
 }
