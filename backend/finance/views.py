@@ -3,8 +3,8 @@ from django.shortcuts import render
 # Create your views here.
 from django.shortcuts import render
 from rest_framework import viewsets
-from .serializers import WalletSerializers, SourceSerializers, CreditCardSerializers, BankAccountSerializers, ExpensesSerializers, IncomesSerializers, TransferSerializers
-from .models import Wallet, Source, CreditCard, BankAccount, Expenses, Incomes, Transfer
+from .serializers import WalletSerializers, SourceSerializers, CreditCardSerializers, BankAccountSerializers, ExpensesSerializers, IncomesSerializers, TransferSerializers, CategorySerializers
+from .models import Wallet, Source, CreditCard, BankAccount, Expenses, Incomes, Transfer, Category
 
 class SourceView(viewsets.ModelViewSet):
     serializer_class = SourceSerializers
@@ -33,3 +33,7 @@ class IncomesView(viewsets.ModelViewSet):
 class TransferView(viewsets.ModelViewSet):
     serializer_class = TransferSerializers
     queryset = Transfer.objects.all()
+
+class CategoryView(viewsets.ModelViewSet):
+    serializer_class = CategorySerializers
+    queryset = Category.objects.all()

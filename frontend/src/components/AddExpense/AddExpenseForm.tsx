@@ -1,7 +1,10 @@
 import React from 'react';
 import { Form, FormGroup, Label, Input, Row, Col } from 'reactstrap';
+import { CategoriesAccounts } from './../../models/common';
+import { Account } from './../../models/accounts';
+import { Categorie } from './../../models/categories';
 
-type Props = {
+interface Props extends CategoriesAccounts {
     handleChangeAmount: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleChangeDescription: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleChangeAccount: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -33,11 +36,9 @@ export const AddExpenseForm: React.SFC<Props> = props => {
                 <FormGroup>
                 <Label for="account">Account</Label>
                 <Input type="select" name="expense-account" id="account" value={props.account_value} onChange={props.handleChangeAccount}>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
+                    {props.accounts.map(function(element: Account) {
+                        return (<option value={element.source.id}>{element.source.name}</option>);
+                    })}
                 </Input>
                 </FormGroup>
                 </Col>
@@ -45,11 +46,9 @@ export const AddExpenseForm: React.SFC<Props> = props => {
                 <FormGroup>
                 <Label for="category">Category</Label>
                 <Input type="select" name="expense-category" id="category" value={props.category_value} onChange={props.handleChangeCategory}>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
+                    {props.categories.map(function(element: Categorie) {
+                        return (<option value={element.id}>{element.name}</option>);
+                    })}
                 </Input>
                 </FormGroup>
                 </Col>

@@ -1,16 +1,17 @@
 import React from 'react';
 import { Button } from 'reactstrap';
 import { AddExpenseModal } from './AddExpenseModal';
+import { CategoriesAccounts } from './../../models/common';
 
 type State = {
     isModalOpen: boolean;
 }
 
-export class AddExpenseButton extends React.Component<any, State> {
-    constructor(props: any) {
+export class AddExpenseButton extends React.Component<CategoriesAccounts, State> {
+    constructor(props: CategoriesAccounts) {
         super(props);
         this.state = {
-            isModalOpen: false
+            isModalOpen: false,
         }
         this.toggle = this.toggle.bind(this);
     }
@@ -25,7 +26,7 @@ export class AddExpenseButton extends React.Component<any, State> {
         return (
             <div className="button-modal-container">
                 <Button onClick={this.toggle}>Add Expense</Button>
-                <AddExpenseModal open={this.state.isModalOpen} toggle={this.toggle}/>
+                <AddExpenseModal open={this.state.isModalOpen} toggle={this.toggle} categories={this.props.categories} accounts={this.props.accounts}/>
             </div>
         );
     }

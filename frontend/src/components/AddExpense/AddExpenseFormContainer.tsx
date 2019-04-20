@@ -1,10 +1,15 @@
 import React from 'react';
 import { AddExpenseForm } from './AddExpenseForm';
 import { postExpense } from './../../services/Expenses';
-import { Expense } from './../../models/expenses/Expense';
+import { Expense } from './../../models/expenses';
+import { CategoriesAccounts } from './../../models/common';
 
-export class AddExpenseFormContainer extends React.Component<{},Expense> {
-    constructor(props: {}) {
+interface Props extends CategoriesAccounts {
+    close: () => void;
+}
+
+export class AddExpenseFormContainer extends React.Component<Props,Expense> {
+    constructor(props: Props) {
         super(props);
         let today = new Date();
         let dateFormat = (date: Date): string => {
@@ -60,7 +65,7 @@ export class AddExpenseFormContainer extends React.Component<{},Expense> {
     OnSumbit(e: React.FormEvent<HTMLFormElement>){
         e.preventDefault();
         postExpense(this.state).then(result => {
-            console.log('ready');
+            this.props.close();
         })
     }
 
@@ -73,6 +78,7 @@ export class AddExpenseFormContainer extends React.Component<{},Expense> {
                 handleChangeIsPayed={this.OnChangeIsPayed} isPayed_value={this.state.is_payed}
                 handleChangeCategory={this.OnChangeCategory} category_value={this.state.category}
                 handleChangeDate={this.OnChangeDate} date_value={this.state.date}
+                accounts={this.props.accounts} categories={this.props.categories}
                 handleOnSubmit={this.OnSumbit}
             />
         );

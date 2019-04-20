@@ -38,3 +38,8 @@ class TransferSerializers(serializers.ModelSerializer):
     class Meta:
         model = Transfer
         fields = ('__all__')
+
+class CategorySerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ('__all__')

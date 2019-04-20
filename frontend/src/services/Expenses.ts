@@ -1,4 +1,4 @@
-import { Expense } from './../models/expenses/Expense';
+import { Expense } from './../models/expenses';
 import axios from 'axios';
 
 const URL = process.env.REACT_APP_API_URL;

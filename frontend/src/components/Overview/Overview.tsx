@@ -7,13 +7,14 @@ import './Overview.css';
 import { Row, Col } from 'reactstrap';
 import { AddExpenseButton } from './../AddExpense/AddExpenseButton';
 import { AddTransferButton } from './../AddTransfer/AddTransferButton';
-import { Account } from './../../models/accounts';
+import { Categorie } from './../../models/categories';
+import { getCategories } from './../../services/Categories';
 
 interface State {
     bank_accounts: Array<BankAccount>,
     cards: Array<Card>,
     wallets: Array<Wallet>,
-    all_accounts: Array<Account>
+    categories: Array<Categorie>
 }
 
 export class Overview extends React.Component<any,State> {
@@ -23,7 +24,7 @@ export class Overview extends React.Component<any,State> {
             bank_accounts: [],
             cards: [],
             wallets: [],
-            all_accounts: []
+            categories: []
         }
     }
 
@@ -31,9 +32,10 @@ export class Overview extends React.Component<any,State> {
         Promise.all([
             getWalletAccounts(),
             getCreditCards(),
-            getBankAccounts()
-        ]).then(([wallet, card, bank]) => {
-            this.setState({ bank_accounts : bank.data, wallets: wallet.data, cards: card.data});
+            getBankAccounts(),
+            getCategories()
+        ]).then(([wallet, card, bank, categories]) => {
+            this.setState({ bank_accounts : bank.data, wallets: wallet.data, cards: card.data, categories: categories.data});
         }).catch(error => console.log(error));
     }
 
@@ -44,7 +46,7 @@ export class Overview extends React.Component<any,State> {
     render() {
         return (
             <div className="container">
-                <AddExpenseButton />{" "}
+                <AddExpenseButton categories={this.state.categories} accounts={[...this.state.bank_accounts, ...this.state.cards, ...this.state.wallets]}/>{" "}
                 <AddTransferButton />
                 <GlobalAmount bank_account={this.state.bank_accounts} card={this.state.cards} wallet={this.state.wallets}/>
                 <Row className="accounts-row">

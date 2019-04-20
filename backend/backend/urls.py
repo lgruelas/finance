@@ -25,6 +25,7 @@ router.register(r'accounts', views.BankAccountView, 'bank_accounts')
 router.register(r'expenses', views.ExpensesView, 'expenses')
 router.register(r'incomes', views.IncomesView, 'incomes')
 router.register(r'transfers', views.TransferView, 'transfers')
+router.register(r'categories', views.CategoryView, 'categories')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
