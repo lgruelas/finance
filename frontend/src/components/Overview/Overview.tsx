@@ -47,7 +47,7 @@ export class Overview extends React.Component<any,State> {
         return (
             <div className="container">
                 <AddExpenseButton categories={this.state.categories} accounts={[...this.state.bank_accounts, ...this.state.cards, ...this.state.wallets]}/>{" "}
-                <AddTransferButton />
+                <AddTransferButton accounts={[...this.state.bank_accounts, ...this.state.cards, ...this.state.wallets]}/>
                 <GlobalAmount bank_account={this.state.bank_accounts} card={this.state.cards} wallet={this.state.wallets}/>
                 <Row className="accounts-row">
                     {this.state.bank_accounts.map(function(element: BankAccount)

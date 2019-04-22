@@ -1,5 +1,5 @@
 import React from 'react';
-import { GlobalAmmountPresentational } from './GlobalAmmountPresentational';
+import { GlobalAmountPresentational } from './GlobalAmountPresentational';
 import { Wallet, Card, BankAccount } from './../../models/accounts';
 import './GlobalAmount.css';
 
@@ -42,7 +42,7 @@ export class GlobalAmount extends React.Component <Props,State>{
 
     render() {
         return(
-            <GlobalAmmountPresentational total={this.state.total} />
+            <GlobalAmountPresentational total={this.state.total} />
         );
     }
 }

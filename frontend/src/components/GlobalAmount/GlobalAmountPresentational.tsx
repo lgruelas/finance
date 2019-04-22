@@ -5,7 +5,7 @@ type Props = {
     total: number;
 }
 
-export const GlobalAmmountPresentational: React.SFC<Props> = props => {
+export const GlobalAmountPresentational: React.SFC<Props> = props => {
     return(
         <Row>
             <Col md={4}>

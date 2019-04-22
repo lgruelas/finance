@@ -3,7 +3,7 @@ import { Row, Col } from 'reactstrap';
 
 type Props = {
     color: string;
-    ammount: string;
+    amount: string;
     name: string;
     bank: string;
 }
@@ -13,7 +13,7 @@ export const AccountCardPresentational: React.SFC<Props> = props => {
         <div className="card">
         <Row>
             <Col xs={8}>
-                <span className="account-text" style={{color: props.color}}>{props.ammount}</span>
+                <span className="account-text" style={{color: props.color}}>{props.amount}</span>
                 <br/>
                 <span>{props.bank}</span>
             </Col>

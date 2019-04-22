@@ -88,4 +88,4 @@ class Transfer(models.Model):
     description = models.TextField()
 
     def __str__(self):
-        return "{}, {} => {}, {}".format(self.date, self.account_from.name, self.account_to.name, self.ammount)
+        return "{}, {} => {}, {}".format(self.date, self.account_from.name, self.account_to.name, self.amount)

@@ -5,4 +5,5 @@ export interface Expense {
     category: string;
     is_payed: boolean;
     date: string;
+    id?: string;
 }
