@@ -8,7 +8,8 @@ type State = {
 }
 
 type Props = {
-    accounts: Array<Account>
+    accounts: Array<Account>,
+    refresh: () => void
 }
 
 export class AddTransferButton extends React.Component<Props, State> {
@@ -30,7 +31,7 @@ export class AddTransferButton extends React.Component<Props, State> {
         return (
             <div className="button-modal-container">
                 <Button onClick={this.toggle}>Add Transfer</Button>
-                <AddTransferModal open={this.state.isModalOpen} toggle={this.toggle} accounts={this.props.accounts}/>
+                <AddTransferModal refresh={this.props.refresh} open={this.state.isModalOpen} toggle={this.toggle} accounts={this.props.accounts}/>
             </div>
         );
     }

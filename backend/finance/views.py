@@ -1,11 +1,9 @@
 from django.shortcuts import render
-
-# Create your views here.
-from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.response import Response
 from .serializers import WalletSerializers, SourceSerializers, CreditCardSerializers, BankAccountSerializers, ExpensesSerializers, IncomesSerializers, TransferSerializers, CategorySerializers
-from .models import Wallet, Source, CreditCard, BankAccount, Expenses, Incomes, Transfer, Category
+from .methods import get_account_instance
+from .models import Source, Wallet, BankAccount, CreditCard, Expenses, Incomes, Category, Transfer
 
 class SourceView(viewsets.ModelViewSet):
     serializer_class = SourceSerializers
@@ -25,20 +23,12 @@ class BankAccountView(viewsets.ModelViewSet):
 
 class ExpensesView(viewsets.ModelViewSet):
     def create(self, request):
-        account_id = request.data.get('account')
-        try:
-            account = BankAccount.objects.get(source__id=account_id)
+        account, type_ = get_account_instance(request.data.get('account'))
+        if type_ == "CreditCard":
+            account.used += request.data.get('amount')
+        else:
             account.balance -= request.data.get('amount')
-            account.save()
-        except BankAccount.DoesNotExist:
-            try:
-                account = CreditCard.objects.get(source__id=account_id)
-                account.used += request.data.get('amount')
-                account.save()
-            except CreditCard.DoesNotExist:
-                account = Wallet.objects.get(source__id=account_id)
-                account.balance -= request.data.get('amount')
-                account.save()
+        account.save()
         return Response({"success": "Expense '{}' created successfully".format(request.data.get('description'))})
 
     serializer_class = ExpensesSerializers
@@ -49,6 +39,21 @@ class IncomesView(viewsets.ModelViewSet):
     queryset = Incomes.objects.all()
 
 class TransferView(viewsets.ModelViewSet):
+    def create(self, request):
+        account_from, account_from_type = get_account_instance(request.data.get('account_from'))
+        account_to, account_to_type = get_account_instance(request.data.get('account_to'))
+        if account_from_type == "CreditCard":
+            return Response({"error": "for now you can't transfer from credit card"}, status=403)
+        account_from.balance -= request.data.get('amount')
+        if account_to_type == "CreditCard":
+            account_to.used -= request.data.get('amount')
+        else:
+            account_to.balance += request.data.get('amount')
+        account_from.save()
+        account_to.save()
+        return Response({"success": "Transfer of '{}', '{}' => '{}' created successfully".format(request.data.get('amount'), account_from, account_to)})
+
+
     serializer_class = TransferSerializers
     queryset = Transfer.objects.all()
 

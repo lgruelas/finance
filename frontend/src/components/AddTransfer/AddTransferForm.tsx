@@ -10,7 +10,7 @@ type Props = {
     handleChangeAccountFrom: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleChangeDate: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleOnSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-    amount_value: string;
+    amount_value: number;
     description_value: string;
     account_from_value: string;
     account_to_value: string;

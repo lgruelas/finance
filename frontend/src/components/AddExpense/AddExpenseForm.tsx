@@ -12,7 +12,7 @@ interface Props extends CategoriesAccounts {
     handleChangeCategory: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleChangeDate: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleOnSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-    amount_value: string;
+    amount_value: number;
     description_value: string;
     account_value: string;
     category_value: string;

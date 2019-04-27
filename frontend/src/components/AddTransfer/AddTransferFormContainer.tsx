@@ -7,6 +7,7 @@ import { Transfer } from './../../models/transfers';
 type Props = {
     accounts: Array<Account>;
     close: () => void;
+    refresh: () => void;
 }
 
 export class AddTransferFormContainer extends React.Component<Props, Transfer> {
@@ -17,7 +18,7 @@ export class AddTransferFormContainer extends React.Component<Props, Transfer> {
             return `${date.getFullYear()}-${date.getMonth()>8?"":0}${date.getMonth()+1}-${date.getDate()}`
         }
         this.state = {
-            amount: '',
+            amount: NaN,
             account_from: '',
             account_to: '',
             date: dateFormat(today),
@@ -33,7 +34,7 @@ export class AddTransferFormContainer extends React.Component<Props, Transfer> {
 
     OnChangeAmount(e: React.ChangeEvent<HTMLInputElement>) {
         e.preventDefault();
-        this.setState({amount: e.target.value});
+        this.setState({amount: +e.target.value});
     }
 
     OnChangeDescription(e: React.ChangeEvent<HTMLInputElement>) {
@@ -59,6 +60,9 @@ export class AddTransferFormContainer extends React.Component<Props, Transfer> {
     OnSumbit(e: React.FormEvent<HTMLFormElement>){
         e.preventDefault();
         postTransfer(this.state).then(result => {
+            if (result.status == 200) {
+                this.props.refresh();
+            }
             this.props.close();
         })
     }

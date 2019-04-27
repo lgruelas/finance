@@ -7,8 +7,12 @@ type State = {
     isModalOpen: boolean;
 }
 
-export class AddExpenseButton extends React.Component<CategoriesAccounts, State> {
-    constructor(props: CategoriesAccounts) {
+interface Props extends CategoriesAccounts {
+    refresh: () => void
+}
+
+export class AddExpenseButton extends React.Component<Props, State> {
+    constructor(props: Props) {
         super(props);
         this.state = {
             isModalOpen: false,

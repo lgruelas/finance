@@ -5,8 +5,9 @@ import { AddTransferFormContainer } from './AddTransferFormContainer';
 
 type Props = {
     open: boolean,
-    toggle: () => void
-    accounts: Array<Account>
+    toggle: () => void,
+    accounts: Array<Account>,
+    refresh: () => void
 }
 
 export const AddTransferModal: React.SFC<Props> = props => {
@@ -15,7 +16,7 @@ export const AddTransferModal: React.SFC<Props> = props => {
             <Modal isOpen={props.open} toggle={props.toggle}>
             <ModalHeader toggle={props.toggle}>Add Transfer</ModalHeader>
             <ModalBody>
-                <AddTransferFormContainer accounts={props.accounts} close={props.toggle}/>
+                <AddTransferFormContainer refresh={props.refresh} accounts={props.accounts} close={props.toggle}/>
             </ModalBody>
             <ModalFooter>
                 <Button outline color="danger" onClick={props.toggle}>Cancel</Button> {' '}

@@ -16,7 +16,7 @@ export class AddExpenseFormContainer extends React.Component<Props,Expense> {
             return `${date.getFullYear()}-${date.getMonth()>8?"":0}${date.getMonth()+1}-${date.getDate()}`
         }
         this.state = {
-            amount: '',
+            amount: NaN,
             description: '',
             account: '',
             category: '',
@@ -35,7 +35,7 @@ export class AddExpenseFormContainer extends React.Component<Props,Expense> {
 
     OnChangeAmount(e: React.ChangeEvent<HTMLInputElement>) {
         e.preventDefault();
-        this.setState({amount: e.target.value});
+        this.setState({amount: +e.target.value});
     }
 
     OnChangeDescription(e: React.ChangeEvent<HTMLInputElement>) {
