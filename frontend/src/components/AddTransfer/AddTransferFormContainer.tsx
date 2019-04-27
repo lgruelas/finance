@@ -60,9 +60,11 @@ export class AddTransferFormContainer extends React.Component<Props, Transfer> {
     OnSumbit(e: React.FormEvent<HTMLFormElement>){
         e.preventDefault();
         postTransfer(this.state).then(result => {
+            console.log("start")
             if (result.status == 200) {
-                this.props.refresh();
+                console.log("ea")
             }
+            console.log("pasaste")
             this.props.close();
         })
     }
@@ -70,12 +72,13 @@ export class AddTransferFormContainer extends React.Component<Props, Transfer> {
     render() {
         return (
             <AddTransferForm
-                handleChangeAmount={this.OnChangeAmount} amount_value={this.state.amount}
-                handleChangeAccountFrom={this.OnChangeAccountFrom} account_from_value={this.state.account_from}
-                handleChangeAccountTo={this.OnChangeAccountTo} account_to_value={this.state.account_to}
-                handleChangeDate={this.OnChangeDate} date_value={this.state.date}
-                handleChangeDescription={this.OnChangeDescription} description_value={this.state.description}
+                handleChangeAmount={this.OnChangeAmount}
+                handleChangeAccountFrom={this.OnChangeAccountFrom}
+                handleChangeAccountTo={this.OnChangeAccountTo}
+                handleChangeDate={this.OnChangeDate}
+                handleChangeDescription={this.OnChangeDescription}
                 handleOnSubmit={this.OnSumbit} accounts={this.props.accounts}
+                {...this.state}
             />
         );
     }

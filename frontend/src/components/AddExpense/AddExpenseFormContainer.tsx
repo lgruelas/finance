@@ -16,7 +16,7 @@ export class AddExpenseFormContainer extends React.Component<Props,Expense> {
             return `${date.getFullYear()}-${date.getMonth()>8?"":0}${date.getMonth()+1}-${date.getDate()}`
         }
         this.state = {
-            amount: NaN,
+            amount: 0,
             description: '',
             account: '',
             category: '',
@@ -72,14 +72,15 @@ export class AddExpenseFormContainer extends React.Component<Props,Expense> {
     render() {
         return (
             <AddExpenseForm
-                handleChangeAccount={this.OnChangeAccount} account_value={this.state.account}
-                handleChangeAmount={this.OnChangeAmount} amount_value={this.state.amount}
-                handleChangeDescription={this.OnChangeDescription} description_value={this.state.description}
-                handleChangeIsPayed={this.OnChangeIsPayed} isPayed_value={this.state.is_payed}
-                handleChangeCategory={this.OnChangeCategory} category_value={this.state.category}
-                handleChangeDate={this.OnChangeDate} date_value={this.state.date}
+                handleChangeAccount={this.OnChangeAccount}
+                handleChangeAmount={this.OnChangeAmount}
+                handleChangeDescription={this.OnChangeDescription}
+                handleChangeIsPayed={this.OnChangeIsPayed}
+                handleChangeCategory={this.OnChangeCategory}
+                handleChangeDate={this.OnChangeDate}
                 accounts={this.props.accounts} categories={this.props.categories}
                 handleOnSubmit={this.OnSumbit}
+                {...this.state}
             />
         );
     }

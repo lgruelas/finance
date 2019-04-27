@@ -26,6 +26,7 @@ export class Overview extends React.Component<any,State> {
             wallets: [],
             categories: []
         }
+        this.reload = this.reload.bind(this);
     }
 
     reload() {
