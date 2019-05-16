@@ -30,7 +30,7 @@ export class AddExpenseButton extends React.Component<Props, State> {
         return (
             <div className="button-modal-container">
                 <Button onClick={this.toggle}>Add Expense</Button>
-                <AddExpenseModal open={this.state.isModalOpen} toggle={this.toggle} categories={this.props.categories} accounts={this.props.accounts}/>
+                <AddExpenseModal refresh={this.props.refresh} open={this.state.isModalOpen} toggle={this.toggle} categories={this.props.categories} accounts={this.props.accounts}/>
             </div>
         );
     }

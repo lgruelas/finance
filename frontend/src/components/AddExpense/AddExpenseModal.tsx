@@ -5,7 +5,8 @@ import { CategoriesAccounts } from './../../models/common';
 
 interface Props extends CategoriesAccounts {
     open: boolean,
-    toggle: () => void
+    toggle: () => void,
+    refresh: () => void
 }
 
 export const AddExpenseModal: React.SFC<Props> = props => {
@@ -14,7 +15,7 @@ export const AddExpenseModal: React.SFC<Props> = props => {
         <Modal isOpen={props.open} toggle={props.toggle}>
         <ModalHeader toggle={props.toggle}>Add Expense</ModalHeader>
         <ModalBody>
-            <AddExpenseFormContainer close={props.toggle} categories={props.categories} accounts={props.accounts}/>
+            <AddExpenseFormContainer refresh={props.refresh} close={props.toggle} categories={props.categories} accounts={props.accounts}/>
         </ModalBody>
         <ModalFooter>
             <Button outline color="danger" onClick={props.toggle}>Cancel</Button> {' '}

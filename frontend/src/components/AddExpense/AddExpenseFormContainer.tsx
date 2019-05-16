@@ -6,6 +6,7 @@ import { CategoriesAccounts } from './../../models/common';
 
 interface Props extends CategoriesAccounts {
     close: () => void;
+    refresh: () => void;
 }
 
 export class AddExpenseFormContainer extends React.Component<Props,Expense> {
@@ -16,11 +17,11 @@ export class AddExpenseFormContainer extends React.Component<Props,Expense> {
             return `${date.getFullYear()}-${date.getMonth()>8?"":0}${date.getMonth()+1}-${date.getDate()}`
         }
         this.state = {
-            amount: 0,
+            amount: NaN,
             description: '',
             account: '',
             category: '',
-            is_payed: false,
+            is_payed: true,
             date: dateFormat(today)
         }
 
@@ -65,6 +66,11 @@ export class AddExpenseFormContainer extends React.Component<Props,Expense> {
     OnSumbit(e: React.FormEvent<HTMLFormElement>){
         e.preventDefault();
         postExpense(this.state).then(result => {
+            if (result.status == 200) {
+                this.props.refresh();
+            } else {
+                alert("algo salió mal");
+            }
             this.props.close();
         })
     }
