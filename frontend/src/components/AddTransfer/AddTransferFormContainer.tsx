@@ -19,8 +19,8 @@ export class AddTransferFormContainer extends React.Component<Props, Transfer> {
         }
         this.state = {
             amount: NaN,
-            account_from: '',
-            account_to: '',
+            account_from: this.props.accounts[0].source.id,
+            account_to: this.props.accounts[1].source.id,
             date: dateFormat(today),
             description: ''
         }
