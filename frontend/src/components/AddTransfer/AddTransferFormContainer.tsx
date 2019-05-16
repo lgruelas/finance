@@ -60,11 +60,11 @@ export class AddTransferFormContainer extends React.Component<Props, Transfer> {
     OnSumbit(e: React.FormEvent<HTMLFormElement>){
         e.preventDefault();
         postTransfer(this.state).then(result => {
-            console.log("start")
             if (result.status == 200) {
-                console.log("ea")
+                this.props.refresh();
+            } else {
+                alert("algo salió mal");
             }
-            console.log("pasaste")
             this.props.close();
         })
     }

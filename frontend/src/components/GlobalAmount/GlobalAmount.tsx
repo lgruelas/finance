@@ -23,10 +23,8 @@ export class GlobalAmount extends React.Component <Props,State>{
     }
 
     componentDidUpdate(oldprops: any) {
-        console.log("hola")
         if (oldprops != this.props) {
             let counter: number = 0;
-            console.log(this.props.bank_account);
             this.props.bank_account.forEach((element: any) => {
                 counter += element.balance;
             });
