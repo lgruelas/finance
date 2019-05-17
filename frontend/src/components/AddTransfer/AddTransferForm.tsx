@@ -19,7 +19,7 @@ export const AddTransferForm: React.SFC<Props> = props => {
         <Form id="transfer-form" onSubmit={props.handleOnSubmit}>
             <FormGroup>
             <Label for="amount">Amount</Label>
-            <Input type="number" step="any" name="transfer-amount" id="amount" placeholder="50.00" value={props.amount} onChange={props.handleChangeAmount} />
+            <Input type="number" step="any" name="transfer-amount" id="amount" placeholder="50.00" value={props.amount.toString()} onChange={props.handleChangeAmount} />
             </FormGroup>
             <FormGroup>
             <Label for="description">Description</Label>
