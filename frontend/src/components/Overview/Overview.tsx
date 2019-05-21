@@ -9,6 +9,7 @@ import { AddExpenseButton } from './../AddExpense/AddExpenseButton';
 import { AddTransferButton } from './../AddTransfer/AddTransferButton';
 import { Categorie } from './../../models/categories';
 import { getCategories } from './../../services/Categories';
+import { CategoriesButton } from './../Categories/CategoriesButton';
 
 interface State {
     bank_accounts: Array<BankAccount>,
@@ -48,7 +49,8 @@ export class Overview extends React.Component<any,State> {
         return (
             <div className="container">
                 <AddExpenseButton refresh={this.reload} categories={this.state.categories} accounts={[...this.state.bank_accounts, ...this.state.cards, ...this.state.wallets]}/>{" "}
-                <AddTransferButton refresh={this.reload} accounts={[...this.state.bank_accounts, ...this.state.cards, ...this.state.wallets]}/>
+                <AddTransferButton refresh={this.reload} accounts={[...this.state.bank_accounts, ...this.state.cards, ...this.state.wallets]}/>{" "}
+                <CategoriesButton />
                 <GlobalAmount bank_account={this.state.bank_accounts} card={this.state.cards} wallet={this.state.wallets}/>
                 <Row className="accounts-row">
                     {this.state.bank_accounts.map(function(element: BankAccount)

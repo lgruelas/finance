@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navigation } from './components/Navigation/Navigation';
-import { Overview } from './components/Overview/Overview';
+import { BrowserRouter } from 'react-router-dom';
+import { Main } from './Main';
 import './App.css';
 
 require('dotenv').config()
@@ -9,8 +10,10 @@ export class App extends React.Component {
   public render() {
     return (
       <div className="App">
-        <Navigation />
-        <Overview />
+          <BrowserRouter>
+          <Navigation />
+          <Main />
+        </BrowserRouter>
       </div>
     );
   }
