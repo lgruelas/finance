@@ -1,7 +1,6 @@
 import React from 'react';
 import { Form, FormGroup, Label, Input, Row, Col } from 'reactstrap';
 import { Account } from './../../models/accounts';
-import { Categorie } from 'src/models/categories';
 import { Transfer } from './../../models/transfers'
 ;
 interface Props extends Transfer {
@@ -40,7 +39,7 @@ export const AddTransferForm: React.SFC<Props> = props => {
                 <FormGroup>
                 <Label for="category">Account To</Label>
                 <Input type="select" name="transfer-category" id="category" value={props.account_to} onChange={props.handleChangeAccountTo}>
-                    {props.accounts.map(function(element: Categorie) {
+                    {props.accounts.map(function(element: Account) {
                         return (<option key={element.source.id} value={element.source.id}>{element.source.name}</option>);
                     })}
                 </Input>
