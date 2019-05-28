@@ -6,7 +6,7 @@ import './Categories.css';
 
 export const CategorieCard: React.SFC<CategorieUsed> = props => {
     const percentage: number = props.used * 100 / props.expected;
-    const color: string = percentage >= 40 ? "warning" : percentage >= 80 ? "danger" : "success";
+    const color: string = percentage < 40 ? "success" : percentage >= 80 ? "danger" : "warning";
     return (
         <div className="category-card">
             <Row>
@@ -18,7 +18,16 @@ export const CategorieCard: React.SFC<CategorieUsed> = props => {
                         }).format(props.expected)
                 }</span></Col>
             </Row>
-            <Progress value={50} color={color}>{props.expected}</Progress>
+            <Row>
+                <Col xs={{size: 4, offset: 8}}><span className="used-card text-danger">{
+                        new Intl.NumberFormat('en-US', {
+                            style: 'currency',
+                            currency: 'USD'
+                        }).format(props.used)
+                }</span></Col>
+            </Row>
+            <br />
+            <Progress value={percentage} color={color}>{props.used}</Progress>
         </div>
     );
 }
