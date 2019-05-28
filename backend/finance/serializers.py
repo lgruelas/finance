@@ -43,3 +43,12 @@ class CategorySerializers(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ('__all__')
+
+class CategoryByMonthSerializers(serializers.ModelSerializer):
+    used = serializers.SerializerMethodField('used_amount')
+    def used_amount(self, category):
+        my_expenses = self.context.get('expenses').filter(category=category.id)
+        return sum([i.amount for i in my_expenses])
+    class Meta:
+        model = Category
+        fields = ('id', 'name', 'expected', 'used')

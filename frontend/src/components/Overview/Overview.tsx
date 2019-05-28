@@ -47,7 +47,7 @@ export class Overview extends React.Component<any,State> {
 
     render() {
         return (
-            <div className="container">
+            <div>
                 <AddExpenseButton refresh={this.reload} categories={this.state.categories} accounts={[...this.state.bank_accounts, ...this.state.cards, ...this.state.wallets]}/>{" "}
                 <AddTransferButton refresh={this.reload} accounts={[...this.state.bank_accounts, ...this.state.cards, ...this.state.wallets]}/>{" "}
                 <CategoriesButton />
