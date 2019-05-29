@@ -14,6 +14,8 @@ class Category(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=120)
     expected = models.DecimalField(decimal_places=4, max_digits=12)
+    must_show = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return "{}, {}".format(self.name, self.expected)
