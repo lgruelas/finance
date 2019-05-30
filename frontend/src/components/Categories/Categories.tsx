@@ -45,9 +45,7 @@ export class Categories extends React.Component<{},State> {
     }
 
     render() {
-        //change arrows
         //update not working correctly for arrows
-        //must show in categories to avoid rent, savings and other ones that must be transactions
         return (
             <div>
                 <Row>
@@ -58,11 +56,19 @@ export class Categories extends React.Component<{},State> {
                         <Button onClick={this.nextMonth} className="btn-next-month">=></Button>
                     </Col>
                 </Row>
-                {this.state.categories.map(function(element: CategorieUsed)
-                    {return (<Row key={element.id}>
-                        <CategorieCard {...element}  />
-                    </Row>);}
+                <Row>
+                {this.state.categories.map((element: CategorieUsed) =>
+                    {
+                        if (element.must_show) {return (
+                        <Col xs={6} key={element.id}>
+                            <CategorieCard {...element}  />
+                        </Col>);}
+                        else {
+                            return null;
+                        }
+                    }
                 )}
+                </Row>
             </div>
         );
     }

@@ -24,13 +24,18 @@ class BankAccountView(viewsets.ModelViewSet):
 
 class ExpensesView(viewsets.ModelViewSet):
     def create(self, request):
-        account, type_ = get_account_instance(request.data.get('account'))
-        if type_ == "CreditCard":
-            account.used += Decimal(request.data.get('amount'))
+        expense = ExpensesSerializers(data=request.data)
+        if expense.is_valid():
+            account, type_ = get_account_instance(request.data.get('account'))
+            if type_ == "CreditCard":
+                account.used += Decimal(request.data.get('amount'))
+            else:
+                account.balance -= Decimal(request.data.get('amount'))
+            account.save()
+            expense.save()
+            return Response({"success": "Expense '{}' created successfully".format(request.data.get('description'))})
         else:
-            account.balance -= Decimal(request.data.get('amount'))
-        account.save()
-        return Response({"success": "Expense '{}' created successfully".format(request.data.get('description'))})
+            return Response({"error": "Expense not added"}, status=400)
 
     serializer_class = ExpensesSerializers
     queryset = Expenses.objects.all()
@@ -41,18 +46,23 @@ class IncomesView(viewsets.ModelViewSet):
 
 class TransferView(viewsets.ModelViewSet):
     def create(self, request):
-        account_from, account_from_type = get_account_instance(request.data.get('account_from'))
-        account_to, account_to_type = get_account_instance(request.data.get('account_to'))
-        if account_from_type == "CreditCard":
-            return Response({"error": "for now you can't transfer from credit card"}, status=403)
-        account_from.balance -= Decimal(request.data.get('amount'))
-        if account_to_type == "CreditCard":
-            account_to.used -= Decimal(request.data.get('amount'))
+        transfer = TransferSerializers(data=request.data)
+        if transfer.is_valid():
+            account_from, account_from_type = get_account_instance(request.data.get('account_from'))
+            account_to, account_to_type = get_account_instance(request.data.get('account_to'))
+            if account_from_type == "CreditCard":
+                return Response({"error": "for now you can't transfer from credit card"}, status=403)
+            account_from.balance -= Decimal(request.data.get('amount'))
+            if account_to_type == "CreditCard":
+                account_to.used -= Decimal(request.data.get('amount'))
+            else:
+                account_to.balance += Decimal(request.data.get('amount'))
+            transfer.save()
+            account_from.save()
+            account_to.save()
+            return Response({"success": "Transfer of '{}', '{}' => '{}' created successfully".format(request.data.get('amount'), account_from, account_to)})
         else:
-            account_to.balance += Decimal(request.data.get('amount'))
-        account_from.save()
-        account_to.save()
-        return Response({"success": "Transfer of '{}', '{}' => '{}' created successfully".format(request.data.get('amount'), account_from, account_to)})
+            return Response({"error": "Transfer not added"}, status=400)
 
 
     serializer_class = TransferSerializers

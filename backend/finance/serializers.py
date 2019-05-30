@@ -51,4 +51,4 @@ class CategoryByMonthSerializers(serializers.ModelSerializer):
         return sum([i.amount for i in my_expenses])
     class Meta:
         model = Category
-        fields = ('id', 'name', 'expected', 'used')
+        fields = ('id', 'name', 'expected', 'used', 'must_show')
