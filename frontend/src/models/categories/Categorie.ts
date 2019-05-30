@@ -1,5 +1,6 @@
 export interface Categorie {
     id: string,
     name: string,
-    expected: number
+    expected: number,
+    must_show: boolean
 }
