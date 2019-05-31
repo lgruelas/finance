@@ -33,7 +33,7 @@ class ExpensesView(viewsets.ModelViewSet):
                 account.balance -= Decimal(request.data.get('amount'))
             account.save()
             expense.save()
-            return Response({"success": "Expense '{}' created successfully".format(request.data.get('description'))})
+            return Response({"success": "Expense '{}' created successfully".format(request.data.get('description'))}, status=201)
         else:
             return Response({"error": "Expense not added"}, status=400)
 
@@ -60,7 +60,7 @@ class TransferView(viewsets.ModelViewSet):
             transfer.save()
             account_from.save()
             account_to.save()
-            return Response({"success": "Transfer of '{}', '{}' => '{}' created successfully".format(request.data.get('amount'), account_from, account_to)})
+            return Response({"success": "Transfer of '{}', '{}' => '{}' created successfully".format(request.data.get('amount'), account_from, account_to)}, status=201)
         else:
             return Response({"error": "Transfer not added"}, status=400)
 

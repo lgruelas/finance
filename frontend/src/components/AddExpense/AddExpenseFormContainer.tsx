@@ -66,7 +66,7 @@ export class AddExpenseFormContainer extends React.Component<Props,Expense> {
     OnSumbit(e: React.FormEvent<HTMLFormElement>){
         e.preventDefault();
         postExpense(this.state).then(result => {
-            if (result.status == 200) {
+            if (result.status == 201) {
                 this.props.refresh();
             } else {
                 alert("algo salió mal");

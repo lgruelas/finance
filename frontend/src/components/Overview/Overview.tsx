@@ -7,6 +7,7 @@ import './Overview.css';
 import { Row, Col } from 'reactstrap';
 import { AddExpenseButton } from './../AddExpense/AddExpenseButton';
 import { AddTransferButton } from './../AddTransfer/AddTransferButton';
+import { AddIncomeButton } from './../AddIncome/AddIncomeButton';
 import { Categorie } from './../../models/categories';
 import { getCategories } from './../../services/Categories';
 import { CategoriesButton } from './../Categories/CategoriesButton';
@@ -50,6 +51,7 @@ export class Overview extends React.Component<any,State> {
             <div>
                 <AddExpenseButton refresh={this.reload} categories={this.state.categories} accounts={[...this.state.bank_accounts, ...this.state.cards, ...this.state.wallets]}/>{" "}
                 <AddTransferButton refresh={this.reload} accounts={[...this.state.bank_accounts, ...this.state.cards, ...this.state.wallets]}/>{" "}
+                <AddIncomeButton refresh={this.reload} accounts={[...this.state.bank_accounts, ...this.state.cards, ...this.state.wallets]}/>{" "}
                 <CategoriesButton />
                 <GlobalAmount bank_account={this.state.bank_accounts} card={this.state.cards} wallet={this.state.wallets}/>
                 <Row className="accounts-row">
