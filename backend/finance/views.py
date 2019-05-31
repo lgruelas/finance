@@ -44,6 +44,20 @@ class IncomesView(viewsets.ModelViewSet):
     serializer_class = IncomesSerializers
     queryset = Incomes.objects.all()
 
+    def create(self, request):
+        income = IncomesSerializers(data=request.data)
+        if income.is_valid():
+            account, type_ = get_account_instance(request.data.get('account'))
+            if type_ == "CreditCard":
+                account.used -= Decimal(request.data.get('amount'))
+            else:
+                account.balance += Decimal(request.data.get('amount'))
+            account.save()
+            income.save()
+            return Response({"success": "Income '{}' created successfully".format(request.data.get('description'))}, status=201)
+        else:
+            return Response({"error": "Income not added"}, status=400)
+
 class TransferView(viewsets.ModelViewSet):
     def create(self, request):
         transfer = TransferSerializers(data=request.data)

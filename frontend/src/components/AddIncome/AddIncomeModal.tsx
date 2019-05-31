@@ -14,7 +14,7 @@ export const AddIncomeModal: React.SFC<Props> = props => {
     return (
         <div>
             <Modal isOpen={props.open} toggle={props.toggle}>
-            <ModalHeader toggle={props.toggle}>Add Transfer</ModalHeader>
+            <ModalHeader toggle={props.toggle}>Add Income</ModalHeader>
             <ModalBody>
                 <AddIncomeFormContainer refresh={props.refresh} accounts={props.accounts} close={props.toggle}/>
             </ModalBody>
