@@ -1,8 +1,8 @@
 import React from 'react';
 import { Account } from './../../models/accounts';
-import { AddTransferForm } from './AddTransferForm';
-import { postTransfer } from './../../services/Transfers';
-import { Transfer } from './../../models/transfers';
+import { AddIncomeForm } from './AddIncomeForm';
+import { postIncome } from './../../services/Incomes';
+import { Income } from './../../models/incomes';
 
 type Props = {
     accounts: Array<Account>;
@@ -10,7 +10,7 @@ type Props = {
     refresh: () => void;
 }
 
-export class AddTransferFormContainer extends React.Component<Props, Transfer> {
+export class AddIncomeFormContainer extends React.Component<Props, Income> {
     constructor(props: Props) {
         super(props);
         let today = new Date();
@@ -19,15 +19,13 @@ export class AddTransferFormContainer extends React.Component<Props, Transfer> {
         }
         this.state = {
             amount: NaN,
-            account_from: this.props.accounts[0].source.id,
-            account_to: this.props.accounts[1].source.id,
+            account: this.props.accounts[0].source.id,
             date: dateFormat(today),
             description: ''
         }
         this.OnChangeAmount = this.OnChangeAmount.bind(this);
         this.OnChangeDescription = this.OnChangeDescription.bind(this);
-        this.OnChangeAccountTo = this.OnChangeAccountTo.bind(this);
-        this.OnChangeAccountFrom = this.OnChangeAccountFrom.bind(this);
+        this.OnChangeAccount = this.OnChangeAccount.bind(this);
         this.OnChangeDate = this.OnChangeDate.bind(this);
         this.OnSumbit = this.OnSumbit.bind(this);
     }
@@ -42,14 +40,9 @@ export class AddTransferFormContainer extends React.Component<Props, Transfer> {
         this.setState({description: e.target.value});
     }
 
-    OnChangeAccountTo(e: React.ChangeEvent<HTMLInputElement>) {
+    OnChangeAccount(e: React.ChangeEvent<HTMLInputElement>) {
         e.preventDefault();
-        this.setState({account_to: e.target.value});
-    }
-
-    OnChangeAccountFrom(e: React.ChangeEvent<HTMLInputElement>) {
-        e.preventDefault();
-        this.setState({account_from: e.target.value});
+        this.setState({account: e.target.value});
     }
 
     OnChangeDate(e: React.ChangeEvent<HTMLInputElement>) {
@@ -59,7 +52,7 @@ export class AddTransferFormContainer extends React.Component<Props, Transfer> {
 
     OnSumbit(e: React.FormEvent<HTMLFormElement>){
         e.preventDefault();
-        postTransfer(this.state).then(result => {
+        postIncome(this.state).then(result => {
             if (result.status == 201) {
                 this.props.refresh();
             } else {
@@ -71,10 +64,9 @@ export class AddTransferFormContainer extends React.Component<Props, Transfer> {
 
     render() {
         return (
-            <AddTransferForm
+            <AddIncomeForm
                 handleChangeAmount={this.OnChangeAmount}
-                handleChangeAccountFrom={this.OnChangeAccountFrom}
-                handleChangeAccountTo={this.OnChangeAccountTo}
+                handleChangeAccount={this.OnChangeAccount}
                 handleChangeDate={this.OnChangeDate}
                 handleChangeDescription={this.OnChangeDescription}
                 handleOnSubmit={this.OnSumbit} accounts={this.props.accounts}

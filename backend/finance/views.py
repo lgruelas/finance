@@ -33,7 +33,7 @@ class ExpensesView(viewsets.ModelViewSet):
                 account.balance -= Decimal(request.data.get('amount'))
             account.save()
             expense.save()
-            return Response({"success": "Expense '{}' created successfully".format(request.data.get('description'))})
+            return Response({"success": "Expense '{}' created successfully".format(request.data.get('description'))}, status=201)
         else:
             return Response({"error": "Expense not added"}, status=400)
 
@@ -43,6 +43,20 @@ class ExpensesView(viewsets.ModelViewSet):
 class IncomesView(viewsets.ModelViewSet):
     serializer_class = IncomesSerializers
     queryset = Incomes.objects.all()
+
+    def create(self, request):
+        income = IncomesSerializers(data=request.data)
+        if income.is_valid():
+            account, type_ = get_account_instance(request.data.get('account'))
+            if type_ == "CreditCard":
+                account.used -= Decimal(request.data.get('amount'))
+            else:
+                account.balance += Decimal(request.data.get('amount'))
+            account.save()
+            income.save()
+            return Response({"success": "Income '{}' created successfully".format(request.data.get('description'))}, status=201)
+        else:
+            return Response({"error": "Income not added"}, status=400)
 
 class TransferView(viewsets.ModelViewSet):
     def create(self, request):
@@ -60,7 +74,7 @@ class TransferView(viewsets.ModelViewSet):
             transfer.save()
             account_from.save()
             account_to.save()
-            return Response({"success": "Transfer of '{}', '{}' => '{}' created successfully".format(request.data.get('amount'), account_from, account_to)})
+            return Response({"success": "Transfer of '{}', '{}' => '{}' created successfully".format(request.data.get('amount'), account_from, account_to)}, status=201)
         else:
             return Response({"error": "Transfer not added"}, status=400)
 
