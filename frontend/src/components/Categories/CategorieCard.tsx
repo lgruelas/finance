@@ -26,7 +26,7 @@ export const CategorieCard: React.SFC<CategorieUsed> = props => {
                         }).format(props.used)
                 }</span></Col>
             </Row>
-            <Progress value={percentage} color={color}>{props.used}</Progress>
+            <Progress value={percentage} color={color}>{percentage.toFixed(2)+"%"}</Progress>
         </div>
     );
 }
