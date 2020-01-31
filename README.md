@@ -75,3 +75,17 @@ This project is licensed under the GPL 3 License - see the [LICENSE.md](LICENSE.
 ## Project Status
 
 I'm starting it.
+
+## Versioning
+
+I'll be unisg semver for versioning.
+
+### Current version
+
+The first release will be soon, I just need to add unittests and set up CI and codecov.
+You can always check the [CHANGELOG](https://github.com/lgruelas/finance/blob/master/CHANGELOG.md).
+
+## Contributing
+
+All contribution is thanked and encouraged, just follow [these lines](https://github.com/lgruelas/finance/blob/master/CHANGELOG.md).
+
