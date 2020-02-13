@@ -1,26 +1,32 @@
-from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.response import Response
-from .serializers import WalletSerializers, SourceSerializers, CreditCardSerializers, BankAccountSerializers, ExpensesSerializers, IncomesSerializers, TransferSerializers, CategorySerializers
+from .serializers import (WalletSerializers, SourceSerializers, CreditCardSerializers,
+                          BankAccountSerializers, ExpensesSerializers, IncomesSerializers,
+                          TransferSerializers, CategorySerializers)
 from .methods import get_account_instance
 from .models import Source, Wallet, BankAccount, CreditCard, Expenses, Incomes, Category, Transfer
 from decimal import Decimal
+
 
 class SourceView(viewsets.ModelViewSet):
     serializer_class = SourceSerializers
     queryset = Source.objects.all()
 
+
 class WalletView(viewsets.ModelViewSet):
     serializer_class = WalletSerializers
     queryset = Wallet.objects.all()
+
 
 class CreditCardView(viewsets.ModelViewSet):
     serializer_class = CreditCardSerializers
     queryset = CreditCard.objects.all()
 
+
 class BankAccountView(viewsets.ModelViewSet):
     serializer_class = BankAccountSerializers
     queryset = BankAccount.objects.all()
+
 
 class ExpensesView(viewsets.ModelViewSet):
     def create(self, request):
@@ -33,12 +39,16 @@ class ExpensesView(viewsets.ModelViewSet):
                 account.balance -= Decimal(request.data.get('amount'))
             account.save()
             expense.save()
-            return Response({"success": "Expense '{}' created successfully".format(request.data.get('description'))}, status=201)
+            return Response(
+                {"success": "Expense '{}' created successfully".format(request.data.get('description'))},
+                status=201
+            )
         else:
             return Response({"error": "Expense not added"}, status=400)
 
     serializer_class = ExpensesSerializers
     queryset = Expenses.objects.all()
+
 
 class IncomesView(viewsets.ModelViewSet):
     serializer_class = IncomesSerializers
@@ -54,9 +64,13 @@ class IncomesView(viewsets.ModelViewSet):
                 account.balance += Decimal(request.data.get('amount'))
             account.save()
             income.save()
-            return Response({"success": "Income '{}' created successfully".format(request.data.get('description'))}, status=201)
+            return Response(
+                {"success": "Income '{}' created successfully".format(request.data.get('description'))},
+                status=201
+            )
         else:
             return Response({"error": "Income not added"}, status=400)
+
 
 class TransferView(viewsets.ModelViewSet):
     def create(self, request):
@@ -74,13 +88,18 @@ class TransferView(viewsets.ModelViewSet):
             transfer.save()
             account_from.save()
             account_to.save()
-            return Response({"success": "Transfer of '{}', '{}' => '{}' created successfully".format(request.data.get('amount'), account_from, account_to)}, status=201)
+            return Response(
+                {
+                    "success": "Transfer of '{}', '{}' => '{}' created"
+                    "successfully".format(request.data.get('amount'), account_from, account_to)
+                },
+                status=201)
         else:
             return Response({"error": "Transfer not added"}, status=400)
 
-
     serializer_class = TransferSerializers
     queryset = Transfer.objects.all()
+
 
 class CategoryView(viewsets.ModelViewSet):
     serializer_class = CategorySerializers

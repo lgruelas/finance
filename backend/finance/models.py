@@ -1,7 +1,7 @@
-from django.db import models
 import uuid
 
-# Create your models here.
+from django.db import models
+
 
 class Source(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -9,6 +9,7 @@ class Source(models.Model):
 
     def __str__(self):
         return "source: {}".format(self.name)
+
 
 class Category(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -19,6 +20,7 @@ class Category(models.Model):
 
     def __str__(self):
         return "{}, {}".format(self.name, self.expected)
+
 
 class BankAccount(models.Model):
     source = models.OneToOneField(
@@ -31,6 +33,7 @@ class BankAccount(models.Model):
 
     def __str__(self):
         return "{}, {}".format(self.source.name, self.balance)
+
 
 class CreditCard(models.Model):
     source = models.OneToOneField(
@@ -47,6 +50,7 @@ class CreditCard(models.Model):
     def __str__(self):
         return "{}, {}".format(self.source.name, self.used)
 
+
 class Wallet(models.Model):
     source = models.OneToOneField(
         Source,
@@ -58,6 +62,7 @@ class Wallet(models.Model):
     def __str__(self):
         return "{}, {}".format(self.source.name, self.balance)
 
+
 class Expenses(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     amount = models.DecimalField(decimal_places=4, max_digits=12)
@@ -65,7 +70,7 @@ class Expenses(models.Model):
     is_payed = models.BooleanField(default=1)
     description = models.TextField()
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
-    date =  models.DateField()
+    date = models.DateField()
 
     def __str__(self):
         return "{}, {}, {}, {}".format(self.date, self.amount, self.category, self.account.name)
@@ -76,10 +81,11 @@ class Incomes(models.Model):
     amount = models.DecimalField(decimal_places=4, max_digits=12)
     account = models.ForeignKey(Source, on_delete=models.PROTECT)
     description = models.TextField()
-    date =  models.DateField()
+    date = models.DateField()
 
     def __str__(self):
         return "{}, {}, {}".format(self.date, self.amount, self.account.name)
+
 
 class Transfer(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

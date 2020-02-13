@@ -1,7 +1,8 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import Category, Expenses
-from .serializers import CategoryByMonthSerializers, ExpensesSerializers
+from .serializers import CategoryByMonthSerializers
+
 
 @api_view(['GET'])
 def month_categories(request, year, month):
