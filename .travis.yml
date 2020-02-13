@@ -8,4 +8,6 @@ install:
 branches:
   only:
     - master
+before_script:
+  - flake8 backend/
 script: python manage.py test
