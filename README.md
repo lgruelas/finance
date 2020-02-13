@@ -1,5 +1,5 @@
 [![license](https://img.shields.io/badge/licence-GPL--3-blue.svg)](https://github.com/lgruelas/finance/blob/master/LICENSE)
-
+[![Build Status](https://travis-ci.org/lgruelas/finance.svg?branch=master)](https://travis-ci.org/lgruelas/finance)
 # Personal Finance Administrator
 
 ![Python master race](assets/python.png?raw=true "python")
