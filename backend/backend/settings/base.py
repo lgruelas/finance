@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'finance',
     'corsheaders',
     'rest_framework',
-    'coverage',
     'django_extensions'
 ]
 
