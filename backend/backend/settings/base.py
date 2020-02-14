@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'finance',
     'corsheaders',
     'rest_framework',
-    'coverage'
+    'coverage',
+    'django_extensions'
 ]
 
 MIDDLEWARE = [
