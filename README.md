@@ -1,3 +1,4 @@
+[![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 [![license](https://img.shields.io/badge/licence-GPL--3-blue.svg)](https://github.com/lgruelas/finance/blob/master/LICENSE)
 [![Build Status](https://travis-ci.org/lgruelas/finance.svg?branch=master)](https://travis-ci.org/lgruelas/finance)
 # Personal Finance Administrator
