@@ -1,0 +1,5 @@
+# Environment files
+backend/settings/*.py
+!backend/settings/example.py
+!backend/settings/base.py
+!backend/settings/__init__.py

@@ -9,9 +9,26 @@
 This project has been made only for study porpouses, it allows you to administrate budgets for each category of your expenses, manage your accounts and so on, later on I might upload a demo video, for now it is under construction.
 
 ### Prerequisites
-You must have a functional version of Node and npm, the frontend is working with React and the backend is Django.
+
+#### Local dev without docker
+
+You must have a functional version of **Node**, **npm** and **Python**, the frontend is working with **React** and the backend is in **Django**. The database is in **Postrgesql** so you also should have one.
+
+#### Local dev with docker
+
+You just need to have **docker** and been logged.
 
 ### Installation
+
+First create the database and user for the app.
+```bash
+psql postgres
+```
+```postgres
+CREATE DATABASE finance;
+CREATE USER django_user PASSWORD 'localpassword';
+GRANT ALL PRIVILEGES ON DATABASE finance TO django_user;
+```
 
 Install python and virtualenv.
 
