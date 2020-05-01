@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+
+    db:
+        image: postgres
+        container_name: postgresDB
+        env_file:
+            - ./db/.env
+        volumes:
+            - "postgres-data:/data/postgres"
+        networks:
+            - finance-network
+
+    worker:
+        container_name: django
+        build: ./backend
+        links:
+            - db:db
+        depends_on:
+            - db
+        networks:
+            - finance-network
+
+    web:
+        container_name: react
+        build: ./frontend
+        env_file:
+            - ./frontend/.env
+        links:
+            - worker:worker
+        networks:
+            - finance-network
+
+
+volumes:
+    postgres-data:
+
+networks:
+    finance-network:

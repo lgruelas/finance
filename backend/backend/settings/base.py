@@ -78,18 +78,6 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'finance',
-        'USER': 'django_user',
-        'PASSWORD': 'localpassword',
-        'HOST': 'localhost',
-        'PORT': '5432'
-    }
-}
-
-
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
@@ -107,10 +95,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
-CORS_ORIGIN_WHITELIST = (
-    'localhost:5100/'
-)
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
