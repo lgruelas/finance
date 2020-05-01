@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Wallet, Source, BankAccount, CreditCard, Category, Expenses, Incomes, Transfer
+from .models import Wallet, Source, BankAccount, CreditCard, Category, Expense, Income, Transfer
 
 
 class SourceSerializers(serializers.ModelSerializer):
@@ -32,15 +32,15 @@ class CreditCardSerializers(serializers.ModelSerializer):
         fields = ('__all__')
 
 
-class ExpensesSerializers(serializers.ModelSerializer):
+class ExpenseSerializers(serializers.ModelSerializer):
     class Meta:
-        model = Expenses
+        model = Expense
         fields = ('__all__')
 
 
-class IncomesSerializers(serializers.ModelSerializer):
+class IncomeSerializers(serializers.ModelSerializer):
     class Meta:
-        model = Incomes
+        model = Income
         fields = ('__all__')
 
 

@@ -1,10 +1,10 @@
 from rest_framework import viewsets
 from rest_framework.response import Response
 from .serializers import (WalletSerializers, SourceSerializers, CreditCardSerializers,
-                          BankAccountSerializers, ExpensesSerializers, IncomesSerializers,
+                          BankAccountSerializers, ExpenseSerializers, IncomeSerializers,
                           TransferSerializers, CategorySerializers)
 from .methods import get_account_instance
-from .models import Source, Wallet, BankAccount, CreditCard, Expenses, Incomes, Category, Transfer
+from .models import Source, Wallet, BankAccount, CreditCard, Expense, Income, Category, Transfer
 from decimal import Decimal
 
 
@@ -28,9 +28,9 @@ class BankAccountView(viewsets.ModelViewSet):
     queryset = BankAccount.objects.all()
 
 
-class ExpensesView(viewsets.ModelViewSet):
+class ExpenseView(viewsets.ModelViewSet):
     def create(self, request):
-        expense = ExpensesSerializers(data=request.data)
+        expense = ExpenseSerializers(data=request.data)
         if expense.is_valid():
             account, type_ = get_account_instance(request.data.get('account'))
             if type_ == "CreditCard":
@@ -46,16 +46,16 @@ class ExpensesView(viewsets.ModelViewSet):
         else:
             return Response({"error": "Expense not added"}, status=400)
 
-    serializer_class = ExpensesSerializers
-    queryset = Expenses.objects.all()
+    serializer_class = ExpenseSerializers
+    queryset = Expense.objects.all()
 
 
-class IncomesView(viewsets.ModelViewSet):
-    serializer_class = IncomesSerializers
-    queryset = Incomes.objects.all()
+class IncomeView(viewsets.ModelViewSet):
+    serializer_class = IncomeSerializers
+    queryset = Income.objects.all()
 
     def create(self, request):
-        income = IncomesSerializers(data=request.data)
+        income = IncomeSerializers(data=request.data)
         if income.is_valid():
             account, type_ = get_account_instance(request.data.get('account'))
             if type_ == "CreditCard":

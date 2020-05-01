@@ -21,6 +21,9 @@ class Category(models.Model):
     def __str__(self):
         return "{}, {}".format(self.name, self.expected)
 
+    class Meta:
+        verbose_name_plural = "Categories"
+
 
 class BankAccount(models.Model):
     source = models.OneToOneField(
@@ -63,7 +66,7 @@ class Wallet(models.Model):
         return "{}, {}".format(self.source.name, self.balance)
 
 
-class Expenses(models.Model):
+class Expense(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     amount = models.DecimalField(decimal_places=4, max_digits=12)
     account = models.ForeignKey(Source, on_delete=models.PROTECT)
@@ -76,7 +79,7 @@ class Expenses(models.Model):
         return "{}, {}, {}, {}".format(self.date, self.amount, self.category, self.account.name)
 
 
-class Incomes(models.Model):
+class Income(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     amount = models.DecimalField(decimal_places=4, max_digits=12)
     account = models.ForeignKey(Source, on_delete=models.PROTECT)
