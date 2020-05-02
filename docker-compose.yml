@@ -14,6 +14,7 @@ services:
 
     worker:
         container_name: django
+        command: bash -c "./wait-for-it.sh db:5432 -- && python manage.py migrate --settings="backend.settings.dev" && python manage.py runserver 0.0.0.0:8000 --settings="backend.settings.dev""
         build: ./backend
         links:
             - db:db
@@ -21,17 +22,18 @@ services:
             - db
         networks:
             - finance-network
+        ports:
+            - 8000:8000
 
     web:
         container_name: react
         build: ./frontend
         env_file:
             - ./frontend/.env
-        links:
-            - worker:worker
         networks:
             - finance-network
-
+        ports:
+            - 8080:5100
 
 volumes:
     postgres-data:

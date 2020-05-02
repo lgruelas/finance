@@ -8,6 +8,4 @@ RUN npm install
 
 COPY . /usr/src/finance
 
-EXPOSE 5100
-
 CMD ["npm", "start"]

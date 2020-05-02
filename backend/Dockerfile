@@ -1,11 +1,11 @@
-FROM python:3.7-slim
+FROM python:3.7
 
 WORKDIR /usr/src/finance
 
 COPY requirements.txt /usr/src/finance
 
-RUN pip install -r requirements.txt
+COPY wait-for-it.sh /usr/src/finance
+
+RUN pip install -r requirements.txt && chmod +x wait-for-it.sh
 
 COPY . /usr/src/finance
-
-CMD ["python", "manage.py run --settings=backend.settings.dev"]
