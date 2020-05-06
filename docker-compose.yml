@@ -8,7 +8,7 @@ services:
         env_file:
             - ./db/.env
         volumes:
-            - "postgres-data:/data/postgres"
+            - "postgres-data:/var/lib/postgresql/data"
         networks:
             - finance-network
 
@@ -16,6 +16,8 @@ services:
         container_name: django
         command: bash -c "./wait-for-it.sh db:5432 -- && python manage.py migrate --settings="backend.settings.dev" && python manage.py runserver 0.0.0.0:8000 --settings="backend.settings.dev""
         build: ./backend
+        volumes:
+            - "./backend:/usr/src/finance"
         links:
             - db:db
         depends_on:
@@ -28,6 +30,8 @@ services:
     web:
         container_name: react
         build: ./frontend
+        volumes:
+            - "./frontend:/usr/src/finance"
         env_file:
             - ./frontend/.env
         networks:

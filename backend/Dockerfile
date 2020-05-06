@@ -1,11 +1,11 @@
 FROM python:3.7
 
-WORKDIR /usr/src/finance
+WORKDIR /usr/src/requirements
 
-COPY requirements.txt /usr/src/finance
+COPY requirements.txt /usr/src/requirements
 
-COPY wait-for-it.sh /usr/src/finance
+COPY wait-for-it.sh /usr/src/requirements
 
 RUN pip install -r requirements.txt && chmod +x wait-for-it.sh
 
-COPY . /usr/src/finance
+WORKDIR /usr/src/finance

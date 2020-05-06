@@ -1,11 +1,11 @@
 FROM node:alpine
 
-WORKDIR /usr/src/finance
+WORKDIR /usr/src/requirements
 
-COPY package.json /usr/src/finance
+COPY package.json /usr/src/requirements
 
 RUN npm install
 
-COPY . /usr/src/finance
+WORKDIR /usr/src/finance
 
 CMD ["npm", "start"]
