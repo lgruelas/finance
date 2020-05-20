@@ -80,13 +80,13 @@ deactivate
 
 It's all set.
 
-## How to run the app?
+## Run the app
 
 ### Local
 
 to run the frontend and the backend just use:
 ```bash
-honcho start
+honcho -e .env.local start
 ```
 
 ### Docker

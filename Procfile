@@ -1,2 +1,2 @@
-back: cd backend && python manage.py runserver --settings=backend.settings.local
+back: cd backend && python manage.py runserver
 front: cd frontend && npm start
