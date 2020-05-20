@@ -2,14 +2,31 @@
 
 # THIS IS AN EXAMPLE OF HOW YOUR FILE SHOULD LOOKS LIKE
 
-from backend.settings.base import *
+from .base import *
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'your secret key'
+SECRET_KEY = ' a security key '
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+ALLOWED_HOSTS = ['*']
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'finance',
+        'USER': 'django_user',
+        'PASSWORD': 'localpassword',
+        'HOST': 'db',
+        'PORT': '5432'
+    }
+}
+
 CORS_ORIGIN_WHITELIST = (
-    'your frontend url'
+    'localhost:8080',
 )
+
+INSTALLED_APPS = INSTALLED_APPS + [
+    'django_extensions',
+]

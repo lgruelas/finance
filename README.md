@@ -20,6 +20,13 @@ You just need to have **docker** and been logged.
 
 ### Installation
 
+For all the configurations you should keep an eye in 3 files:
+- `db/.env.example` - used for the docker setup
+- `frontend/.env.examle.[local/docker]` - used for both setups
+- `backend/backend/settings/example.py` - used by both
+
+#### Local
+
 First create the database and user for the app.
 ```bash
 psql postgres
@@ -55,13 +62,8 @@ source venv/bin/activate
 ```
 then install dependencies
 ```bash
-pip install django
-pip install honcho
-```
-
-to exit the virtual environment just run
-```bash
-deactivate
+cd backend
+pip install -r requirements.txt
 ```
 
 Install the frontend dependencies with
@@ -69,10 +71,28 @@ Install the frontend dependencies with
 cd frontend
 npm install
 ```
-## Dev run
+
+to exit the virtual environment just run
+```bash
+deactivate
+```
+#### Docker
+
+It's all set.
+
+## Run the app
+
+### Local
+
 to run the frontend and the backend just use:
 ```bash
-honcho start
+honcho -e .env.local start
+```
+
+### Docker
+Just use
+```bash
+docker-compose up -d
 ```
 
 ## Built With
@@ -85,6 +105,7 @@ honcho start
 ## Authors
 
 *   **Germán Ruelas** - [GitHub](https://github.com/lgruelas)
+If you need help with running the system feel free to send me an email.
 
 ## License
 
