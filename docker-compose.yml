@@ -14,8 +14,11 @@ services:
 
     worker:
         container_name: django
-        command: bash -c "./wait-for-it.sh db:5432 -- && python manage.py migrate --settings="backend.settings.dev" && python manage.py runserver 0.0.0.0:8000 --settings="backend.settings.dev""
+        command: bash -c "./wait-for-it.sh db:5432 -- && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
         build: ./backend
+        environment: 
+            - PYTHONUNBUFFERED=1
+            - DJANGO_DEBUG_DOCKER=True
         volumes:
             - "./backend:/usr/src/finance"
         links:
@@ -25,7 +28,7 @@ services:
         networks:
             - finance-network
         ports:
-            - 8000:8000
+            - 9090:8000
 
     web:
         container_name: react
@@ -34,8 +37,6 @@ services:
             - "./frontend:/usr/src/finance"
         env_file:
             - ./frontend/.env
-        networks:
-            - finance-network
         ports:
             - 8080:5100
 

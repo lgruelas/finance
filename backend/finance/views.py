@@ -1,3 +1,5 @@
+import logging
+
 from rest_framework import viewsets
 from rest_framework.response import Response
 from .serializers import (WalletSerializers, SourceSerializers, CreditCardSerializers,
@@ -7,6 +9,7 @@ from .methods import get_account_instance
 from .models import Source, Wallet, BankAccount, CreditCard, Expenses, Incomes, Category, Transfer
 from decimal import Decimal
 
+logger = logging.getLogger(__name__)
 
 class SourceView(viewsets.ModelViewSet):
     serializer_class = SourceSerializers
