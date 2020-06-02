@@ -9,7 +9,7 @@ interface Props {
 }
 
 function determineIfCard(toBeDetermined: Account): toBeDetermined is Card {
-    if((toBeDetermined as Card).used){
+    if((toBeDetermined as Card).used != null){
         return true
     }
     return false
@@ -40,6 +40,9 @@ export const AccountCard: React.SFC<Props> = (props) => {
 
     const color: string = determineIfCard(props.account) ? "red" : determineIfBankAccount(props.account) ? "green" : "blue";
     return (
-        <AccountCardPresentational name={props.account.source.name} bank={getName(color, props.account)} amount={determineIfCard(props.account) ? formatCurrency(props.account.used) : formatCurrency(props.account.balance)} color={color}/>
+        <AccountCardPresentational name={props.account.source.name}
+                                    bank={getName(color, props.account)}
+                                    amount={determineIfCard(props.account) ? formatCurrency(props.account.used) : formatCurrency(props.account.balance)}
+                                    color={color}/>
     );
 }

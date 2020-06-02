@@ -30,5 +30,5 @@ router.register(r'categories', views.CategoryView, 'categories')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/', include(router.urls)),
-    path('api/v1/categories/<int:year>/<int:month>', requests.month_categories)
+    path('api/v1/categories/<int:year>/<int:month>/', requests.month_categories)
 ]

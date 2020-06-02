@@ -16,7 +16,7 @@ services:
         container_name: django
         command: bash -c "./wait-for-it.sh db:5432 -- && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
         build: ./backend
-        environment: 
+        environment:
             - PYTHONUNBUFFERED=1
             - DJANGO_DEBUG_DOCKER=True
         volumes:
