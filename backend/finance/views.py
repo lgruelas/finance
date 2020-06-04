@@ -1,16 +1,14 @@
+from decimal import Decimal
 from rest_framework import viewsets
 from rest_framework.response import Response
-from .serializers import (WalletSerializers, SourceSerializers, CreditCardSerializers,
+
+from django.shortcuts import get_object_or_404
+
+from .serializers import (WalletSerializers, CreditCardSerializers,
                           BankAccountSerializers, ExpenseSerializers, IncomeSerializers,
                           TransferSerializers, CategorySerializers)
 from .methods import get_account_instance
-from .models import Source, Wallet, BankAccount, CreditCard, Expense, Income, Category, Transfer
-from decimal import Decimal
-
-
-class SourceView(viewsets.ModelViewSet):
-    serializer_class = SourceSerializers
-    queryset = Source.objects.all()
+from .models import Wallet, BankAccount, CreditCard, Expense, Income, Category, Transfer
 
 
 class WalletView(viewsets.ModelViewSet):
@@ -29,8 +27,11 @@ class BankAccountView(viewsets.ModelViewSet):
 
 
 class ExpenseView(viewsets.ModelViewSet):
+    serializer_class = ExpenseSerializers
+    queryset = Expense.objects.all()
+
     def create(self, request):
-        expense = ExpenseSerializers(data=request.data)
+        expense = self.serializer_class(data=request.data)
         if expense.is_valid():
             account, type_ = get_account_instance(request.data.get('account'))
             if type_ == "CreditCard":
@@ -46,8 +47,11 @@ class ExpenseView(viewsets.ModelViewSet):
         else:
             return Response({"error": "Expense not added"}, status=400)
 
-    serializer_class = ExpenseSerializers
-    queryset = Expense.objects.all()
+    def update(self, request, **kwargs):
+        old_expense = get_object_or_404(Expense, pk=kwargs.get("pk"))
+        expense = self.serializer_class(data=request.data)
+        old_expense
+        return Response({"error": "Expense {} not modified".format(kwargs.get("pk"))}, status=400)
 
 
 class IncomeView(viewsets.ModelViewSet):
