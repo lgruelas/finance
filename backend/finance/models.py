@@ -21,7 +21,7 @@ class Account(models.Model):
         return Account.objects.get_subclass(pk=self.pk)
 
     def __str__(self):
-        return "account: {}".format(self.name)
+        return "account: {}, balance: {}".format(self.name, self.balance)
 
 
 class Category(models.Model):
@@ -76,7 +76,7 @@ class Expense(models.Model):
     date = models.DateField()
 
     def __str__(self):
-        return "{}, {}, {}, {}".format(self.date, self.amount, self.category, self.account.name)
+        return "{}, {}, {}, {}".format(self.description, self.amount, self.category, self.account.name)
 
 
 class Income(models.Model):
@@ -87,7 +87,7 @@ class Income(models.Model):
     date = models.DateField()
 
     def __str__(self):
-        return "{}, {}, {}".format(self.date, self.amount, self.account.name)
+        return "{}, {}, {}".format(self.description, self.amount, self.account.name)
 
 
 class Transfer(models.Model):
@@ -99,4 +99,4 @@ class Transfer(models.Model):
     description = models.TextField()
 
     def __str__(self):
-        return "{}, {} => {}, {}".format(self.date, self.account_from.name, self.account_to.name, self.amount)
+        return "{}, {} => {}, {}".format(self.description, self.account_from.name, self.account_to.name, self.amount)
