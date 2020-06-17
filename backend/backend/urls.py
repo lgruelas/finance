@@ -15,20 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework import routers
-from finance import views, requests
-
-router = routers.DefaultRouter()
-router.register(r'wallets', views.WalletView, 'wallet')
-router.register(r'cards', views.CreditCardView, 'credit_card')
-router.register(r'accounts', views.BankAccountView, 'bank_accounts')
-router.register(r'expenses', views.ExpenseView, 'expenses')
-router.register(r'incomes', views.IncomeView, 'incomes')
-router.register(r'transfers', views.TransferView, 'transfers')
-router.register(r'categories', views.CategoryView, 'categories')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/', include(router.urls)),
-    path('api/v1/categories/<int:year>/<int:month>/', requests.month_categories)
+
+    path('api/v1/', include('finance.urls'))
 ]
