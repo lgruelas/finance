@@ -1,7 +1,6 @@
 import uuid
 from model_utils.managers import InheritanceManager
 
-from django.contrib.contenttypes.models import ContentType
 from django.db import models
 
 

@@ -83,7 +83,6 @@ class ExpenseView(viewsets.ModelViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-
 class IncomeView(viewsets.ModelViewSet):
     serializer_class = IncomeSerializer
     queryset = Income.objects.all()
@@ -173,13 +172,16 @@ class TransferView(viewsets.ModelViewSet):
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         accounts_update = []
-        if "account_from_id" in serializer.validated_data and instance.account_from_id != serializer.validated_data["account_from_id"]:
+
+        has_account_from = "account_from_id" in serializer.validated_data
+        if has_account_from and instance.account_from_id != serializer.validated_data["account_from_id"]:
             instance.account_from.balance += instance.amount
             accounts_update.append(instance.account_from)
             instance.account_from = get_object_or_404(Account, id=serializer.validated_data["account_from_id"])
             instance.account_from.balance -= instance.amount
 
-        if "account_to_id" in serializer.validated_data and instance.account_to_id != serializer.validated_data["account_to_id"]:
+        has_account_to = "account_to_id" in serializer.validated_data
+        if has_account_to and instance.account_to_id != serializer.validated_data["account_to_id"]:
             instance.account_to.balance -= instance.amount
             accounts_update.append(instance.account_to)
             instance.account_to = get_object_or_404(Account, id=serializer.validated_data["account_to_id"])
@@ -223,7 +225,6 @@ class CategoryByMonthView(viewsets.ReadOnlyModelViewSet):
         month = self.kwargs["month"]
         year = self.kwargs["year"]
         prefetch = Prefetch("expenses",
-            queryset=Expense.objects.filter(date__month=month, date__year=year),
-            to_attr="expenses_month"
-        )
+                            queryset=Expense.objects.filter(date__month=month, date__year=year),
+                            to_attr="expenses_month")
         return Category.objects.prefetch_related(prefetch).filter(must_show=True)

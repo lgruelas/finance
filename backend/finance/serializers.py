@@ -20,6 +20,7 @@ class AccountSerializer(serializers.ModelSerializer):
         model = Account
         fields = ("id",)
 
+
 class WalletSerializer(serializers.ModelSerializer):
     class Meta:
         model = Wallet
@@ -38,6 +39,7 @@ class CreditCardSerializer(serializers.ModelSerializer):
         model = CreditCard
         fields = ('__all__')
 
+
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
@@ -49,6 +51,7 @@ class ExpenseSerializer(serializers.ModelSerializer):
     account_id = serializers.UUIDField(write_only=True)
     category = CategorySerializer(read_only=True)
     category_id = serializers.UUIDField(write_only=True)
+
     class Meta:
         model = Expense
         fields = ('__all__')
@@ -57,6 +60,7 @@ class ExpenseSerializer(serializers.ModelSerializer):
 class IncomeSerializer(serializers.ModelSerializer):
     account = AccountSerializer(read_only=True)
     account_id = serializers.UUIDField(write_only=True)
+
     class Meta:
         model = Income
         fields = ("__all__")
@@ -67,12 +71,15 @@ class TransferSerializer(serializers.ModelSerializer):
     account_to = AccountSerializer(read_only=True)
     account_from_id = serializers.UUIDField(write_only=True)
     account_to_id = serializers.UUIDField(write_only=True)
+
     class Meta:
         model = Transfer
         fields = "__all__"
 
     def validate(self, data):
-        if data.get("account_from_id", self.instance.account_from_id) == data.get("account_to_id", self.instance.account_to_id):
+        account_from_id = data.get("account_from_id", self.instance.account_from_id)
+        account_to_id = data.get("account_to_id", self.instance.account_to_id)
+        if account_from_id == account_to_id:
             raise serializers.ValidationError("You can't transfer to the same account")
         return data
 
