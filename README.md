@@ -2,99 +2,50 @@
 [![license](https://img.shields.io/badge/licence-GPL--3-blue.svg)](https://github.com/lgruelas/finance/blob/master/LICENSE)
 [![Build Status](https://api.travis-ci.com/lgruelas/finance.svg?branch=master)](https://travis-ci.com/lgruelas/finance)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/0409d1607cb04aef95cfb96f4af42887)](https://www.codacy.com/manual/lgruelas/finance?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=lgruelas/finance&amp;utm_campaign=Badge_Grade)
+
 # Personal Finance Administrator
 
 ![Python master race](assets/python.png?raw=true "python")
 
 ## Getting started
+
 This project has been made only for study porpouses, it allows you to administrate budgets for each category of your expenses, manage your accounts and so on, later on I might upload a demo video, for now it is under construction.
 
+There are two ways to set it up for use and for development, using a regular local env (now deprecated, but you can still see the instructions [here](htts://github.com/lgruelas/finance/blob/master/LOCAL-README.md)) and a docker environment.
+
 ### Prerequisites
-
-#### Local dev without docker
-
-You must have a functional version of **Node**, **npm** and **Python**, the frontend is working with **React** and the backend is in **Django**. The database is in **Postrgesql** so you also should have one.
-
-#### Local dev with docker
 
 You just need to have **docker** and been logged.
 
 ### Installation
 
 For all the configurations you should keep an eye in 3 files:
-- `db/.env.example` - used for the docker setup
-- `frontend/.env.examle.[local/docker]` - used for both setups
-- `backend/backend/settings/example.py` - used by both
+-   `db/.env.example` - please rename it to `.env`
+-   `frontend/.env.docker.example` - please rename it to `.env`
+-   `backend/backend/settings/example.py` - please rename it to `dev.py` and fill as required.
 
-#### Local
+Then you just need to build the images, containers but this is done with the first run.
 
-First create the database and user for the app.
-```bash
-psql postgres
-```
-```postgres
-CREATE DATABASE finance;
-CREATE USER django_user PASSWORD 'localpassword';
-GRANT ALL PRIVILEGES ON DATABASE finance TO django_user;
-```
+### Run the App
 
-Install python and virtualenv.
-
-```bash
-sudo dnf -y install python3
-sudo dnf -y install python3-pip
-pip3 install --user virtualenv
-```
-
-Then create the virtual enviroment.
-
-```bash
-virtualenv -p python3 venv
-```
-
-if fails try with
-```bash
-python -m virtualenv -p python3 venv
-```
-To start the virtual enviroment use:
-
-```bash
-source venv/bin/activate
-```
-then install dependencies
-```bash
-cd backend
-pip install -r requirements.txt
-```
-
-Install the frontend dependencies with
-```bash
-cd frontend
-npm install
-```
-
-to exit the virtual environment just run
-```bash
-deactivate
-```
-#### Docker
-
-It's all set.
-
-## Run the app
-
-### Local
-
-to run the frontend and the backend just use:
-```bash
-honcho -e .env.local start
-```
-
-### Docker
 Just use
 ```bash
 docker-compose up -d
 ```
+
+### Stop the app
+
+```bash
+docker-compose down
+```
+
+**Note:** due to the volumes, the database info is persistent, to remove it permanently use:
+
+```bash
+dacker-compose down -v
+```
+
+And then erase the images and containers with `docker images rm <image-id>` and `docker rm <container-id>`
 
 ## Built With
 
