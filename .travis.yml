@@ -15,4 +15,7 @@ branches:
 before_script:
   - flake8 backend/ --statistics
   - cd backend/
-script: python manage.py test
+  - coverage erase
+script: coverage run manage.py test
+after_success:
+  - codecov

@@ -2,6 +2,7 @@
 [![license](https://img.shields.io/badge/licence-GPL--3-blue.svg)](https://github.com/lgruelas/finance/blob/master/LICENSE)
 [![Build Status](https://api.travis-ci.com/lgruelas/finance.svg?branch=master)](https://travis-ci.com/lgruelas/finance)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/0409d1607cb04aef95cfb96f4af42887)](https://www.codacy.com/manual/lgruelas/finance?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=lgruelas/finance&amp;utm_campaign=Badge_Grade)
+[![codecov](https://codecov.io/gh/lgruelas/finance/branch/master/graph/badge.svg)](https://codecov.io/gh/lgruelas/finance)
 
 # Personal Finance Administrator
 

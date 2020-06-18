@@ -9,6 +9,8 @@ You must have a functional version of **Node**, **npm** and **Python**, the fron
 -   `frontend/.env.local.example` - please rename it to `.env`
 -   `backend/backend/settings/example.py` - please rename it to `local.py` and fill as required.
 
+**Note:** It's really important to make `source .env.local` in the root directory.
+
 ### Database
 
 First create the database and user for the app.
@@ -37,7 +39,7 @@ Then create the virtual enviroment.
 virtualenv -p python3 venv
 ```
 
-if fails try with
+if It fails try with
 ```bash
 python -m virtualenv -p python3 venv
 ```

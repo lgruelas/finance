@@ -38,9 +38,11 @@ class ExpenseView(viewsets.ModelViewSet):
             account.balance -= Decimal(request.data.get('amount'))
             account.save()
             expense.save()
+            headers = self.get_success_headers(expense.data)
             return Response(
-                {"success": "Expense '{}' created successfully".format(request.data.get('description'))},
-                status=status.HTTP_201_CREATED
+                expense.data,
+                status=status.HTTP_201_CREATED,
+                headers=headers
             )
         else:
             return Response({"error": "Expense not added, error in {}".format(
@@ -94,9 +96,11 @@ class IncomeView(viewsets.ModelViewSet):
             account.balance += Decimal(request.data.get('amount'))
             account.save()
             income.save()
+            headers = self.get_success_headers(income.data)
             return Response(
-                {"success": "Income '{}' created successfully".format(request.data.get('description'))},
-                status=status.HTTP_201_CREATED
+                income.data,
+                status=status.HTTP_201_CREATED,
+                headers=headers
             )
         else:
             return Response({"error": "Income not added, error in {}".format(
@@ -155,12 +159,12 @@ class TransferView(viewsets.ModelViewSet):
             transfer.save()
             account_from.save()
             account_to.save()
+            headers = self.get_success_headers(transfer.data)
             return Response(
-                {
-                    "success": "Transfer of '{}', '{}' => '{}' created "
-                    "successfully".format(request.data['amount'], account_from, account_to)
-                },
-                status=status.HTTP_201_CREATED)
+                transfer.data,
+                status=status.HTTP_201_CREATED,
+                headers=headers
+            )
         else:
             return Response({"error": "Transfer not added, error in {}".format(
                 ", ".join(transfer.errors.keys())
