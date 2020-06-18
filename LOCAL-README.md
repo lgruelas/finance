@@ -6,8 +6,8 @@ You must have a functional version of **Node**, **npm** and **Python**, the fron
 
 ### Env files
 
-- `frontend/.env.local.example` - please rename it to `.env`
-- `backend/backend/settings/example.py` - please rename it to `local.py` and fill as required.
+-   `frontend/.env.local.example` - please rename it to `.env`
+-   `backend/backend/settings/example.py` - please rename it to `local.py` and fill as required.
 
 ### Database
 
@@ -71,4 +71,3 @@ to run the frontend and the backend just use:
 ```bash
 honcho -e .env.local start
 ```
-
