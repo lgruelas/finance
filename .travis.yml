@@ -16,6 +16,6 @@ before_script:
   - flake8 backend/ --statistics
   - cd backend/
   - coverage erase
-script: coverage run manage.py test
+script: coverage run manage.py test -v 2
 after_success:
   - codecov
