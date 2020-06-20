@@ -60,7 +60,7 @@ class ExpenseViewTest(TestCase):
     @patch('finance.views.get_object_or_404')
     @patch('finance.views.ExpenseView.get_serializer')
     @patch('finance.views.ExpenseView.get_object')
-    def test_update_when_account_and_balance_changes(self, mock_instance, mock_serializer, mock_get_object, mock_update):
+    def test_update_when_account_and_balance_change(self, mock_instance, mock_serializer, mock_get_object, mock_update):
         request = self.factory.put("some_url", data=self.expense_data)
         # New objects to be changed
         old_dummy_account = Mock(balance=0, id=2)

@@ -1,5 +1,7 @@
 sudo: false
 language: python
+services:
+  - postgresql
 python:
   - "3.7"
 env:
@@ -13,6 +15,7 @@ branches:
   only:
     - master
 before_script:
+  - psql -c "CREATE USER django_user WITH PASSWORD 'localpassword' CREATEDB;" -U postgres
   - flake8 backend/ --statistics
   - cd backend/
   - coverage erase

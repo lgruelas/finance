@@ -18,7 +18,7 @@ DATABASES = {
         'NAME': 'finance',
         'USER': 'django_user',
         'PASSWORD': 'localpassword',
-        'HOST': 'db',
+        'HOST': 'localhost',
         'PORT': '5432'
     }
 }

@@ -5,7 +5,7 @@ from unittest.mock import patch, Mock
 from django.test import TestCase
 
 from ...views import TransferView
-from ...models import Account, CreditCard
+from ...models import CreditCard
 
 
 class TransferViewTest(TestCase):
@@ -81,7 +81,7 @@ class TransferViewTest(TestCase):
     @patch('finance.views.get_object_or_404')
     @patch('finance.views.TransferView.get_serializer')
     @patch('finance.views.TransferView.get_object')
-    def test_update_with_accounts_and_balance_changes(self, mock_instance, mock_serializer, mock_get_object, mock_update):
+    def test_update_accounts_and_balance_change(self, mock_instance, mock_serializer, mock_get_object, mock_update):
         request = self.factory.put("some_url", data=self.transfer_data)
         # Old objects to be changed
         old_dummy_account_from = Mock(balance=0, id=3)
