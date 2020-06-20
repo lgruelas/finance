@@ -15,13 +15,15 @@ You must have a functional version of **Node**, **npm** and **Python**, the fron
 
 First create the database and user for the app.
 ```bash
-psql postgres
+psql -U postgres
 ```
 ```postgres
 CREATE DATABASE finance;
 CREATE USER django_user PASSWORD 'localpassword';
 GRANT ALL PRIVILEGES ON DATABASE finance TO django_user;
 ```
+
+If you are goint to run the tests, remember to add permissions to create databases to the user with `ALTER USER django_user CREATEDB;`
 
 ### Backend
 

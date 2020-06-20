@@ -1,6 +1,7 @@
 import uuid
 from model_utils.managers import InheritanceManager
 
+from django.core.exceptions import ValidationError
 from django.db import models
 
 
@@ -17,10 +18,13 @@ class Account(models.Model):
     objects = InheritanceManager()
 
     def get_child(self):
+        child = Account.objects.get_subclass(pk=self.pk)
+        if not isinstance(child, (BankAccount, CreditCard, Wallet)):
+            raise ValidationError("Account instance have no child class")
         return Account.objects.get_subclass(pk=self.pk)
 
     def __str__(self):
-        return "account: {}, balance: {}".format(self.name, self.balance)
+        return "{0}, ${1:.2f}".format(self.name, self.balance)
 
 
 class Category(models.Model):
@@ -31,7 +35,7 @@ class Category(models.Model):
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
-        return "{}, {}".format(self.name, self.expected)
+        return "{0}, {1:.2f}".format(self.name, self.expected)
 
     class Meta:
         verbose_name_plural = "Categories"
@@ -40,9 +44,6 @@ class Category(models.Model):
 class BankAccount(Account):
     bank = models.CharField(max_length=120)
     is_investment = models.BooleanField(default=0)
-
-    def __str__(self):
-        return "{}, {}".format(self.name, self.balance)
 
 
 class CreditCard(Account):
@@ -55,14 +56,9 @@ class CreditCard(Account):
     def used(self):
         return self.credit - self.balance
 
-    def __str__(self):
-        return "{}, {}".format(self.name, self.balance)
-
 
 class Wallet(Account):
-
-    def __str__(self):
-        return "{}, {}".format(self.name, self.balance)
+    pass
 
 
 class Expense(models.Model):
@@ -75,7 +71,7 @@ class Expense(models.Model):
     date = models.DateField()
 
     def __str__(self):
-        return "{}, {}, {}, {}".format(self.description, self.amount, self.category, self.account.name)
+        return "{0}, ${1:.2f}, {2}, {3}".format(self.description, self.amount, self.category.name, self.account.name)
 
 
 class Income(models.Model):
@@ -86,7 +82,7 @@ class Income(models.Model):
     date = models.DateField()
 
     def __str__(self):
-        return "{}, {}, {}".format(self.description, self.amount, self.account.name)
+        return "{0}, ${1:.2f}, {2}".format(self.description, self.amount, self.account.name)
 
 
 class Transfer(models.Model):
@@ -98,4 +94,7 @@ class Transfer(models.Model):
     description = models.TextField()
 
     def __str__(self):
-        return "{}, {} => {}, {}".format(self.description, self.account_from.name, self.account_to.name, self.amount)
+        return "{0}, {1} => {2}, ${3:.2f}".format(self.description,
+                                                  self.account_from.name,
+                                                  self.account_to.name,
+                                                  self.amount)
