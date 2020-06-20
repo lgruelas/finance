@@ -81,7 +81,7 @@ class TransferViewTest(TestCase):
     @patch('finance.views.get_object_or_404')
     @patch('finance.views.TransferView.get_serializer')
     @patch('finance.views.TransferView.get_object')
-    def test_update(self, mock_instance, mock_serializer, mock_get_object, mock_update):
+    def test_update_with_accounts_and_balance_changes(self, mock_instance, mock_serializer, mock_get_object, mock_update):
         request = self.factory.put("some_url", data=self.transfer_data)
         # Old objects to be changed
         old_dummy_account_from = Mock(balance=0, id=3)
@@ -115,6 +115,108 @@ class TransferViewTest(TestCase):
         # Check that new accounts gains the transfer
         self.assertEqual(self.dummy_account_from.balance, -10)
         self.assertEqual(self.dummy_account_to.balance, 10)
+
+    @patch('finance.views.Account.objects.bulk_update')
+    @patch('finance.views.get_object_or_404')
+    @patch('finance.views.TransferView.get_serializer')
+    @patch('finance.views.TransferView.get_object')
+    def test_update_when_balance_changes(self, mock_instance, mock_serializer, mock_get_object, mock_update):
+        request = self.factory.put("some_url", data=self.transfer_data)
+        # old objects to be changed
+        old_transfer = Mock(
+            amount=5,
+            account_from=self.dummy_account_from,
+            account_to=self.dummy_account_to,
+            account_from_id=self.dummy_account_from.id,
+            account_to_id=self.dummy_account_to.id,
+            description="new_transfer_description",
+            date=date.today().isoformat()
+        )
+        # Configuring serializer mock with new values
+        mock_serializer.return_value.is_valid.return_value = True
+        mock_serializer.return_value.validated_data = self.transfer_data
+        # Configuring instance mock with new values
+        mock_instance.return_value = old_transfer
+        old_transfer._prefetched_objects_cache = True
+
+        response = TransferView.as_view({"put": "update"})(request)
+
+        mock_serializer.return_value.is_valid.assert_called_once_with(raise_exception=True)
+        mock_update.assert_called_once_with([self.dummy_account_from, self.dummy_account_to], ["balance"])
+        mock_serializer.return_value.save.assert_called_once_with()
+        mock_get_object.assert_not_called()
+        self.assertEqual(old_transfer._prefetched_objects_cache, {})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(self.dummy_account_from.balance, -5)
+        self.assertEqual(self.dummy_account_to.balance, 5)
+
+    @patch('finance.views.Account.objects.bulk_update')
+    @patch('finance.views.get_object_or_404')
+    @patch('finance.views.TransferView.get_serializer')
+    @patch('finance.views.TransferView.get_object')
+    def test_update_with_same_account_and_balance(self, mock_instance, mock_serializer, mock_get_object, mock_update):
+        request = self.factory.put("some_url", data=self.transfer_data)
+        # old objects to be changed
+        old_transfer = Mock(
+            amount=10,
+            account_from=self.dummy_account_from,
+            account_to=self.dummy_account_to,
+            account_from_id=self.dummy_account_from.id,
+            account_to_id=self.dummy_account_to.id,
+            description="new_transfer_description",
+            date=date.today().isoformat()
+        )
+        # Configuring serializer mock with new values
+        mock_serializer.return_value.is_valid.return_value = True
+        mock_serializer.return_value.validated_data = self.transfer_data
+        # Configuring instance mock with new values
+        mock_instance.return_value = old_transfer
+        old_transfer._prefetched_objects_cache = True
+
+        response = TransferView.as_view({"put": "update"})(request)
+
+        mock_serializer.return_value.is_valid.assert_called_once_with(raise_exception=True)
+        mock_update.assert_called_once_with([self.dummy_account_from, self.dummy_account_to], ["balance"])
+        mock_serializer.return_value.save.assert_called_once_with()
+        mock_get_object.assert_not_called()
+        self.assertEqual(old_transfer._prefetched_objects_cache, {})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(self.dummy_account_from.balance, 0)
+        self.assertEqual(self.dummy_account_to.balance, 0)
+
+    @patch('finance.views.Account.objects.bulk_update')
+    @patch('finance.views.get_object_or_404')
+    @patch('finance.views.TransferView.get_serializer')
+    @patch('finance.views.TransferView.get_object')
+    def test_update_when_no_cache(self, mock_instance, mock_serializer, mock_get_object, mock_update):
+        request = self.factory.put("some_url", data=self.transfer_data)
+        # old objects to be changed
+        old_transfer = Mock(
+            amount=10,
+            account_from=self.dummy_account_from,
+            account_to=self.dummy_account_to,
+            account_from_id=self.dummy_account_from.id,
+            account_to_id=self.dummy_account_to.id,
+            description="new_transfer_description",
+            date=date.today().isoformat()
+        )
+        # Configuring serializer mock with new values
+        mock_serializer.return_value.is_valid.return_value = True
+        mock_serializer.return_value.validated_data = self.transfer_data
+        # Configuring instance mock with new values
+        mock_instance.return_value = old_transfer
+        old_transfer._prefetched_objects_cache = False
+
+        response = TransferView.as_view({"put": "update"})(request)
+
+        mock_serializer.return_value.is_valid.assert_called_once_with(raise_exception=True)
+        mock_update.assert_called_once_with([self.dummy_account_from, self.dummy_account_to], ["balance"])
+        mock_serializer.return_value.save.assert_called_once_with()
+        mock_get_object.assert_not_called()
+        self.assertFalse(getattr(old_transfer, '_prefetched_objects_cache', True))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(self.dummy_account_from.balance, 0)
+        self.assertEqual(self.dummy_account_to.balance, 0)
 
     @patch('finance.views.TransferView.get_object')
     def test_destroy(self, mock_instance):

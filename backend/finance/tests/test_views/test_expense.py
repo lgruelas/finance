@@ -60,17 +60,18 @@ class ExpenseViewTest(TestCase):
     @patch('finance.views.get_object_or_404')
     @patch('finance.views.ExpenseView.get_serializer')
     @patch('finance.views.ExpenseView.get_object')
-    def test_update(self, mock_instance, mock_serializer, mock_get_object, mock_update):
+    def test_update_when_account_and_balance_changes(self, mock_instance, mock_serializer, mock_get_object, mock_update):
         request = self.factory.put("some_url", data=self.expense_data)
-        # Old objects to be changed
+        # New objects to be changed
         old_dummy_account = Mock(balance=0, id=2)
         old_expense = Mock(
             amount=5,
             account=old_dummy_account,
-            description="new_expense_description",
-            date=date.today().isoformat()
+            description="old_expense_description",
+            date=date.today().isoformat(),
+            account_id=old_dummy_account.id
         )
-        # Configuring serializer mock with new values
+        # Configuring serializer mock with old values
         mock_serializer.return_value.is_valid.return_value = True
         mock_serializer.return_value.validated_data = self.expense_data
         # Configuring instance mock with old values
@@ -89,6 +90,99 @@ class ExpenseViewTest(TestCase):
         self.assertEqual(self.dummy_account.balance, -10)
         # Check that previous account gains the expense
         self.assertEqual(old_dummy_account.balance, 5)
+
+    @patch('finance.views.Account.objects.bulk_update')
+    @patch('finance.views.get_object_or_404')
+    @patch('finance.views.ExpenseView.get_serializer')
+    @patch('finance.views.ExpenseView.get_object')
+    def test_update_when_balance_changes(self, mock_instance, mock_serializer, mock_get_object, mock_update):
+        request = self.factory.put("some_url", data=self.expense_data)
+        # New objects to be changed
+        old_expense = Mock(
+            amount=5,
+            account=self.dummy_account,
+            description="old_expense_description",
+            date=date.today().isoformat(),
+            account_id=self.dummy_account.id
+        )
+        # Configuring serializer mock with old values
+        mock_serializer.return_value.is_valid.return_value = True
+        mock_serializer.return_value.validated_data = self.expense_data
+        # Configuring instance mock with old values
+        mock_instance.return_value = old_expense
+        old_expense._prefetched_objects_cache = True
+
+        response = ExpenseView.as_view({"put": "update"})(request)
+
+        mock_serializer.return_value.is_valid.assert_called_once_with(raise_exception=True)
+        mock_update.assert_called_once_with([self.dummy_account], ["balance"])
+        mock_serializer.return_value.save.assert_called_once_with()
+        mock_get_object.assert_not_called()
+        self.assertEqual(old_expense._prefetched_objects_cache, {})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(self.dummy_account.balance, -5)
+
+    @patch('finance.views.Account.objects.bulk_update')
+    @patch('finance.views.get_object_or_404')
+    @patch('finance.views.ExpenseView.get_serializer')
+    @patch('finance.views.ExpenseView.get_object')
+    def test_update_with_same_account_and_balance(self, mock_instance, mock_serializer, mock_get_object, mock_update):
+        request = self.factory.put("some_url", data=self.expense_data)
+        # New objects to be changed
+        old_expense = Mock(
+            amount=10,
+            account=self.dummy_account,
+            description="old_expense_description",
+            date=date.today().isoformat(),
+            account_id=self.dummy_account.id
+        )
+        # Configuring serializer mock with old values
+        mock_serializer.return_value.is_valid.return_value = True
+        mock_serializer.return_value.validated_data = self.expense_data
+        # Configuring instance mock with old values
+        mock_instance.return_value = old_expense
+        old_expense._prefetched_objects_cache = True
+
+        response = ExpenseView.as_view({"put": "update"})(request)
+
+        mock_serializer.return_value.is_valid.assert_called_once_with(raise_exception=True)
+        mock_update.assert_called_once_with([self.dummy_account], ["balance"])
+        mock_serializer.return_value.save.assert_called_once_with()
+        mock_get_object.assert_not_called()
+        self.assertEqual(old_expense._prefetched_objects_cache, {})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(self.dummy_account.balance, 0)
+
+    @patch('finance.views.Account.objects.bulk_update')
+    @patch('finance.views.get_object_or_404')
+    @patch('finance.views.ExpenseView.get_serializer')
+    @patch('finance.views.ExpenseView.get_object')
+    def test_update_when_no_cache(self, mock_instance, mock_serializer, mock_get_object, mock_update):
+        request = self.factory.put("some_url", data=self.expense_data)
+        # New objects to be changed
+        old_expense = Mock(
+            amount=10,
+            account=self.dummy_account,
+            description="old_expense_description",
+            date=date.today().isoformat(),
+            account_id=self.dummy_account.id
+        )
+        # Configuring serializer mock with old values
+        mock_serializer.return_value.is_valid.return_value = True
+        mock_serializer.return_value.validated_data = self.expense_data
+        # Configuring instance mock with old values
+        mock_instance.return_value = old_expense
+        old_expense._prefetched_objects_cache = False
+
+        response = ExpenseView.as_view({"put": "update"})(request)
+
+        mock_serializer.return_value.is_valid.assert_called_once_with(raise_exception=True)
+        mock_update.assert_called_once_with([self.dummy_account], ["balance"])
+        mock_serializer.return_value.save.assert_called_once_with()
+        mock_get_object.assert_not_called()
+        self.assertFalse(getattr(old_expense, '_prefetched_objects_cache', True))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(self.dummy_account.balance, 0)
 
     @patch('finance.views.ExpenseView.get_object')
     def test_destroy(self, mock_instance):

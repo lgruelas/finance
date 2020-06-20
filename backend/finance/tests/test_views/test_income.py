@@ -56,7 +56,7 @@ class IncomeViewTest(TestCase):
     @patch('finance.views.get_object_or_404')
     @patch('finance.views.IncomeView.get_serializer')
     @patch('finance.views.IncomeView.get_object')
-    def test_update(self, mock_instance, mock_serializer, mock_get_object, mock_update):
+    def test_update_when_balance_and_account_changes(self, mock_instance, mock_serializer, mock_get_object, mock_update):
         request = self.factory.put("some_url", data=self.income_data)
         # Old objects to be changed
         old_dummy_account = Mock(balance=0, id=2)
@@ -85,6 +85,99 @@ class IncomeViewTest(TestCase):
         self.assertEqual(self.dummy_account.balance, 10)
         # Check that previous account losses the income
         self.assertEqual(old_dummy_account.balance, -5)
+
+    @patch('finance.views.Account.objects.bulk_update')
+    @patch('finance.views.get_object_or_404')
+    @patch('finance.views.IncomeView.get_serializer')
+    @patch('finance.views.IncomeView.get_object')
+    def test_update_when_balance_changes(self, mock_instance, mock_serializer, mock_get_object, mock_update):
+        request = self.factory.put("some_url", data=self.income_data)
+        # New objects to be changed
+        old_income = Mock(
+            amount=5,
+            account=self.dummy_account,
+            description="old_income_description",
+            date=date.today().isoformat(),
+            account_id=self.dummy_account.id
+        )
+        # Configuring serializer mock with old values
+        mock_serializer.return_value.is_valid.return_value = True
+        mock_serializer.return_value.validated_data = self.income_data
+        # Configuring instance mock with old values
+        mock_instance.return_value = old_income
+        old_income._prefetched_objects_cache = True
+
+        response = IncomeView.as_view({"put": "update"})(request)
+
+        mock_serializer.return_value.is_valid.assert_called_once_with(raise_exception=True)
+        mock_update.assert_called_once_with([self.dummy_account], ["balance"])
+        mock_serializer.return_value.save.assert_called_once_with()
+        mock_get_object.assert_not_called()
+        self.assertEqual(old_income._prefetched_objects_cache, {})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(self.dummy_account.balance, 5)
+
+    @patch('finance.views.Account.objects.bulk_update')
+    @patch('finance.views.get_object_or_404')
+    @patch('finance.views.IncomeView.get_serializer')
+    @patch('finance.views.IncomeView.get_object')
+    def test_update_with_same_account_and_balance(self, mock_instance, mock_serializer, mock_get_object, mock_update):
+        request = self.factory.put("some_url", data=self.income_data)
+        # New objects to be changed
+        old_income = Mock(
+            amount=10,
+            account=self.dummy_account,
+            description="old_income_description",
+            date=date.today().isoformat(),
+            account_id=self.dummy_account.id
+        )
+        # Configuring serializer mock with old values
+        mock_serializer.return_value.is_valid.return_value = True
+        mock_serializer.return_value.validated_data = self.income_data
+        # Configuring instance mock with old values
+        mock_instance.return_value = old_income
+        old_income._prefetched_objects_cache = True
+
+        response = IncomeView.as_view({"put": "update"})(request)
+
+        mock_serializer.return_value.is_valid.assert_called_once_with(raise_exception=True)
+        mock_update.assert_called_once_with([self.dummy_account], ["balance"])
+        mock_serializer.return_value.save.assert_called_once_with()
+        mock_get_object.assert_not_called()
+        self.assertEqual(old_income._prefetched_objects_cache, {})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(self.dummy_account.balance, 0)
+
+    @patch('finance.views.Account.objects.bulk_update')
+    @patch('finance.views.get_object_or_404')
+    @patch('finance.views.IncomeView.get_serializer')
+    @patch('finance.views.IncomeView.get_object')
+    def test_update_when_no_cache(self, mock_instance, mock_serializer, mock_get_object, mock_update):
+        request = self.factory.put("some_url", data=self.income_data)
+        # New objects to be changed
+        old_income = Mock(
+            amount=10,
+            account=self.dummy_account,
+            description="old_income_description",
+            date=date.today().isoformat(),
+            account_id=self.dummy_account.id
+        )
+        # Configuring serializer mock with old values
+        mock_serializer.return_value.is_valid.return_value = True
+        mock_serializer.return_value.validated_data = self.income_data
+        # Configuring instance mock with old values
+        mock_instance.return_value = old_income
+        old_income._prefetched_objects_cache = False
+
+        response = IncomeView.as_view({"put": "update"})(request)
+
+        mock_serializer.return_value.is_valid.assert_called_once_with(raise_exception=True)
+        mock_update.assert_called_once_with([self.dummy_account], ["balance"])
+        mock_serializer.return_value.save.assert_called_once_with()
+        mock_get_object.assert_not_called()
+        self.assertFalse(getattr(old_income, '_prefetched_objects_cache', True))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(self.dummy_account.balance, 0)
 
     @patch('finance.views.IncomeView.get_object')
     def test_destroy(self, mock_instance):
