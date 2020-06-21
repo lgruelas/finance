@@ -53,7 +53,7 @@ export class Categories extends React.Component<{},State> {
                         <Button onClick={this.prevMonth}>&lt;=</Button>
                     </Col>
                     <Col xs={6}>
-                        <Button onClick={this.nextMonth} className="btn-next-month">=></Button>
+                        <Button onClick={this.nextMonth} className="btn-next-month">=&gt;</Button>
                     </Col>
                 </Row>
                 <Row>
