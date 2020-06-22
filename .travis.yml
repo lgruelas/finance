@@ -1,24 +1,24 @@
 sudo: false
 language: python
 services:
-  - postgresql
+  - docker
 python:
   - "3.7"
-env:
-  - DJANGO_DEBUG_LOCAL=True
-install:
-  - cd backend
-  - pip install -r requirements.txt
-  - mv backend/settings/example.py backend/settings/local.py
-  - cd ..
 branches:
   only:
     - master
+install:
+  - cd backend
+  - mv backend/settings/example.py backend/settings/local.py
+  - cd ..
+  - mv db/.env.example db/.env
+  - mv frontend/.env.docker.example frontend/.env
+  - docker-compose up -d
+  - bash -c "./backend/wait-for-it.sh localhost:5551"
 before_script:
-  - psql -c "CREATE USER django_user WITH PASSWORD 'localpassword' CREATEDB;" -U postgres
-  - flake8 backend/ --statistics
-  - cd backend/
-  - coverage erase
-script: coverage run manage.py test -v 2
+  - docker container ps
+  - docker-compose exec worker flake8 "." "--statistics"
+  - docker-compose exec worker coverage "erase"
+script: docker-compose exec worker coverage "run" "manage.py" "test"
 after_success:
-  - codecov
+  - docker-compose exec worker codecov
