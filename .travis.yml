@@ -1,5 +1,5 @@
-sudo: false
 language: python
+os: linux
 services:
   - docker
 python:
@@ -18,23 +18,24 @@ before_install:
   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
-  - pip install codecov coverage
+  - export ci_env=`bash <(curl -s https://codecov.io/env)`
 install:
   - cd backend
   - mv backend/settings/example.py backend/settings/dev.py
   - cd ..
   - mv db/.env.example db/.env
   - mv frontend/.env.docker.example frontend/.env
-  - docker-compose up -d
+  - echo $ci_env
+  - python make_env_codecov.py
+  - docker-compose up -d --build
   - bash -c "./backend/wait-for-it.sh localhost:9090"
+  - cat .env.codecov
 before_script:
   - sleep 15
   - docker-compose exec worker flake8 "." "--statistics"
   - docker-compose exec worker coverage "erase"
 script: docker-compose exec worker coverage "run" "manage.py" "test" "-v 2"
 after_success:
-  - cd backend
-  - codecov
-  - cd ..
+  - docker-compose exec worker codecov
 after_script:
   - docker-compose down
