@@ -17,8 +17,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'finance',
         'USER': 'django_user',
-        'PASSWORD': 'localpassword',
-        'HOST': 'localhost',
+        'PASSWORD': 'dockerpassword',
+        'HOST': 'db',
         'PORT': '5432'
     }
 }

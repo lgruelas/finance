@@ -20,7 +20,7 @@ before_install:
   - sudo mv docker-compose /usr/local/bin
 install:
   - cd backend
-  - mv backend/settings/example.py backend/settings/local.py
+  - mv backend/settings/example.py backend/settings/dev.py
   - cd ..
   - mv db/.env.example db/.env
   - mv frontend/.env.docker.example frontend/.env
