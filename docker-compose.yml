@@ -11,8 +11,6 @@ services:
             - "postgres-data:/var/lib/postgresql/data"
         networks:
             - finance-network
-        ports:
-            - 5551:5432  # Just for CI tests
 
     worker:
         container_name: django

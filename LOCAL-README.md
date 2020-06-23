@@ -7,7 +7,7 @@ You must have a functional version of **Node**, **npm** and **Python**, the fron
 ### Env files
 
 -   `frontend/.env.local.example` - please rename it to `.env`
--   `backend/backend/settings/example.py` - please rename it to `local.py` and fill as required.
+-   `backend/backend/settings/example.py` - please rename it to `local.py` and fill as required, pay special attention to the password field.
 
 **Note:** It's really important to make `source .env.local` in the root directory.
 

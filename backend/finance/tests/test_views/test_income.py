@@ -145,7 +145,7 @@ class IncomeViewTest(TestCase):
         mock_serializer.return_value.save.assert_called_once_with()
         mock_get_object.assert_not_called()
         self.assertEqual(old_income._prefetched_objects_cache, {})
-        self.assertEqual(response.status_code, 203)
+        self.assertEqual(response.status_code, 200)
         self.assertEqual(self.dummy_account.balance, 0)
 
     @patch('finance.views.Account.objects.bulk_update')
