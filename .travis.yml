@@ -33,7 +33,7 @@ before_script:
   - docker-compose logs --tail=100 worker
   - docker-compose exec worker flake8 "." "--statistics"
   - docker-compose exec worker coverage "erase"
-script: docker-compose exec worker coverage "run" "manage.py" "test"
+script: docker-compose exec worker coverage "run" "manage.py" "test" "-v 2"
 after_success:
   - docker-compose exec worker codecov
 after_script:

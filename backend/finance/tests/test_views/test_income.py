@@ -122,7 +122,7 @@ class IncomeViewTest(TestCase):
     @patch('finance.views.IncomeView.get_serializer')
     @patch('finance.views.IncomeView.get_object')
     def test_update_with_same_account_and_balance(self, mock_instance, mock_serializer, mock_get_object, mock_update):
-        request = self.factory.put("some_url", data=self.income_data)
+        request = self.factory.put("some_url this string is intended to bee too long so flake8 will fail", data=self.income_data)
         # New objects to be changed
         old_income = Mock(
             amount=10,
