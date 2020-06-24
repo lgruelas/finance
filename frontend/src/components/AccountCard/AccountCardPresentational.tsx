@@ -18,7 +18,7 @@ export const AccountCardPresentational: React.SFC<Props> = props => {
                 <span>{props.bank}</span>
             </Col>
             <Col xs={4}>
-                <img width="50px" className="card-image" src={"../assets/imgs/" + props.name + ".png"} />
+                <img width="50px" className="card-image" src={"../assets/imgs/" + props.name + ".png"} alt={props.name}/>
             </Col>
         </Row>
         </div>
