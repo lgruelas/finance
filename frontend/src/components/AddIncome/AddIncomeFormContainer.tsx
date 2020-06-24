@@ -53,7 +53,7 @@ export class AddIncomeFormContainer extends React.Component<Props, Income> {
     OnSumbit(e: React.FormEvent<HTMLFormElement>){
         e.preventDefault();
         postIncome(this.state).then(result => {
-            if (result.status == 201) {
+            if (result.status === 201) {
                 this.props.refresh();
             } else {
                 alert("algo salió mal");
