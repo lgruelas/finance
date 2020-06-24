@@ -1,24 +1,43 @@
-sudo: false
 language: python
+os: linux
 services:
-  - postgresql
+  - docker
 python:
   - "3.7"
-env:
-  - DJANGO_DEBUG_LOCAL=True
-install:
-  - cd backend
-  - pip install -r requirements.txt
-  - mv backend/settings/example.py backend/settings/local.py
-  - cd ..
 branches:
   only:
     - master
+env:
+  - DOCKER_COMPOSE_VERSION=1.25.5
+before_install:
+  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+  - sudo apt-get update
+  - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+  - export ci_env=`bash <(curl -s https://codecov.io/env)`
+  - pip install codecov
+install:
+  - cd backend
+  - mv backend/settings/example.py backend/settings/dev.py
+  - cd ..
+  - mv db/.env.example db/.env
+  - mv frontend/.env.docker.example frontend/.env
+  - python make_env_codecov.py
+  - docker-compose up -d --build
+  - bash -c "./backend/wait-for-it.sh localhost:9090"
 before_script:
-  - psql -c "CREATE USER django_user WITH PASSWORD 'localpassword' CREATEDB;" -U postgres
-  - flake8 backend/ --statistics
-  - cd backend/
-  - coverage erase
-script: coverage run manage.py test -v 2
+  - sleep 15
+  - docker-compose exec worker flake8 "." "--statistics"
+  - docker-compose exec worker coverage "erase"
+script: docker-compose exec worker coverage "run" "manage.py" "test" "-v 2"
 after_success:
-  - codecov
+  - docker-compose exec worker coverage "xml" "-i"
+  - wc -l backend/coverage.xml
+  - cd backend
+  - codecov -X pycov
+after_script:
+  - docker-compose down

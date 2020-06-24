@@ -24,6 +24,7 @@ For all the configurations you should keep an eye in 3 files:
 -   `db/.env.example` - please rename it to `.env`
 -   `frontend/.env.docker.example` - please rename it to `.env`
 -   `backend/backend/settings/example.py` - please rename it to `dev.py` and fill as required.
+-   Create an empty file at root called `.env.codecov`, this is needed in the CI env.
 
 Then you just need to build the images, containers but this is done with the first run.
 
