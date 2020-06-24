@@ -51,14 +51,14 @@ And then erase the images and containers with `docker images rm <image-id>` and 
 
 ## Built With
 
-*   [Python](https://www.python.org/downloads/)
-*   [Django](https://www.djangoproject.com/download/)
-*   [Typescript](https://www.typescriptlang.org/index.html#download-links)
-*   [React](https://reactjs.org/)
+-   [Python](https://www.python.org/downloads/)
+-   [Django](https://www.djangoproject.com/download/)
+-   [Typescript](https://www.typescriptlang.org/index.html#download-links)
+-   [React](https://reactjs.org/)
 
 ## Authors
 
-*   **Germán Ruelas** - [GitHub](https://github.com/lgruelas)
+-   **Germán Ruelas** - [GitHub](https://github.com/lgruelas)
 If you need help with running the system feel free to send me an email.
 
 ## License
@@ -80,5 +80,5 @@ You can always check the [CHANGELOG](https://github.com/lgruelas/finance/blob/ma
 
 ## Contributing
 
-All contribution is thanked and encouraged, just follow [these lines](https://github.com/lgruelas/finance/blob/master/CHANGELOG.md).
+All contribution is thanked and encouraged, just follow [these lines](https://github.com/lgruelas/finance/blob/master/CONTRIBUTING.md).
 
