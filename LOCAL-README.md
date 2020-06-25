@@ -75,3 +75,17 @@ to run the frontend and the backend just use:
 ```bash
 honcho -e .env.local start
 ```
+
+## Relevant urls
+
+The main URL is:
+
+-   `http://localhost:5100`
+
+The URL to communicate with the API is, by default:
+
+-   `http://localhost:8000/api/v1/`
+
+You can see the documentation at:
+
+-   `http://localhost:8000/coreapi-docs/`

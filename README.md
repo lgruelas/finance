@@ -26,16 +26,27 @@ For all the configurations you should keep an eye in 3 files:
 -   `backend/backend/settings/example.py` - please rename it to `dev.py` and fill as required.
 -   Create an empty file at root called `.env.codecov`, this is needed in the CI env.
 
-Then you just need to build the images, containers but this is done with the first run.
+Then you just need to build the images and containers, this is done just once with:
 
-### Run the App
-
-Just use
 ```bash
 docker-compose up -d
 ```
 
+### Run the App
+
+In order to run the app in each subsecuent execution just use:
+
+```bash
+docker-compose start
+```
+
 ### Stop the app
+
+```bash
+docker-compose stop
+```
+
+### Remove the containers
 
 ```bash
 docker-compose down
@@ -47,7 +58,21 @@ docker-compose down
 dacker-compose down -v
 ```
 
-And then erase the images and containers with `docker images rm <image-id>` and `docker rm <container-id>`
+And then erase the images and containers with `docker images rm <image-id>`.
+
+## Relevant urls
+
+The main URL is:
+
+-   `http://localhost:8080`
+
+The URL to communicate with the API is, by default:
+
+-   `http://localhost:9090/api/v1/`
+
+You can see the documentation at:
+
+-   `http://localhost:9090/coreapi-docs/`
 
 ## Built With
 
@@ -55,6 +80,7 @@ And then erase the images and containers with `docker images rm <image-id>` and 
 -   [Django](https://www.djangoproject.com/download/)
 -   [Typescript](https://www.typescriptlang.org/index.html#download-links)
 -   [React](https://reactjs.org/)
+-   [Docker](https://www.docker.com/)
 
 ## Authors
 

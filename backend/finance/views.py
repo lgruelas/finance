@@ -223,6 +223,13 @@ class CategoryView(viewsets.ModelViewSet):
 
 
 class CategoryByMonthView(viewsets.ReadOnlyModelViewSet):
+    """
+    retrieve:
+    Get the category object plus a used field containing the money spent in that category in the given month and year.
+
+    list:
+    Get a list with all the categorys with "must show" and a used field containing the money spent in the year/month.
+    """
     serializer_class = CategoryMonthSerializer
 
     def get_queryset(self):
