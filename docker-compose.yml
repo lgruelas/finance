@@ -36,7 +36,8 @@ services:
         container_name: react
         build: ./frontend
         volumes:
-            - "./frontend:/usr/src/finance"
+            - "./frontend:/usr/src/finance/app"
+            - /usr/src/finance/node_modules
         env_file:
             - ./frontend/.env
         ports:
