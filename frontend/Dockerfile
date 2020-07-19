@@ -1,11 +1,13 @@
 FROM node:latest
 
-WORKDIR /usr/src/requirements
+WORKDIR /usr/src/finance
 
-COPY package.json /usr/src/requirements
+COPY package*.json /usr/src/finance/
 
 RUN npm install
 
-WORKDIR /usr/src/finance
+ENV PATH /usr/src/finance/node_modules/.bin:$PATH
+
+WORKDIR /usr/src/finance/app
 
 CMD ["npm", "start"]
