@@ -1,9 +1,6 @@
 import React from 'react';
 import { Row, Col } from 'reactstrap';
-
-type Props = {
-    total: number;
-}
+import { GlobalAmountPresentationalProps as Props } from './Props';
 
 export const GlobalAmountPresentational: React.SFC<Props> = props => {
     return(

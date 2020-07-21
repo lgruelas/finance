@@ -1,20 +1,10 @@
 import React from 'react';
 import { GlobalAmountPresentational } from './GlobalAmountPresentational';
-import { Wallet, Card, BankAccount } from './../../models/accounts';
+import { GlobalAmountProps as Props } from './Props';
+import { GlobalAmountState as State } from './State';
 import './GlobalAmount.css';
 
-type State = {
-    total: number;
-}
-
-type Props = {
-    bank_account: Array<BankAccount>;
-    wallet: Array<Wallet>;
-    card: Array<Card>;
-}
-
-
-export class GlobalAmount extends React.Component <Props,State>{
+export class GlobalAmount extends React.Component <Props, State>{
     constructor(props: any) {
         super(props);
         this.state = {

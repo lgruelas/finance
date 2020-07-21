@@ -34,10 +34,8 @@ export class Navigation extends React.Component<any,any> {
         return (
             <div>
                 <Navbar className="finance-navbar" color="light" light expand="md">
-                <NavbarBrand>
-                    <Link to="/">
-                        Finance Viewer
-                    </Link>
+                <NavbarBrand tag={Link} to={'/'}>
+                    Finance Viewer
                 </NavbarBrand>
                 <NavbarToggler onClick={this.toggle} />
                 <Collapse isOpen={this.state.isOpen} navbar>
