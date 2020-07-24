@@ -1,7 +1,3 @@
-import { Source } from './Source';
+import { Account } from './Account';
 
-export interface Wallet {
-    source: Source,
-    balance: number,
-    bank: "Wallet"
-}
+export interface Wallet extends Account { }

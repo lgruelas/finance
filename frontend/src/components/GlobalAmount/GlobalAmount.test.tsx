@@ -6,16 +6,16 @@ import { GlobalAmountPresentational } from './GlobalAmountPresentational';
 import { GlobalAmountPresentationalProps, GlobalAmountProps } from './Props';
 
 describe('Global Amount component', () => {
-    let props_pres: GlobalAmountPresentationalProps;
-    let props_cont: GlobalAmountProps;
+    let propsPres: GlobalAmountPresentationalProps;
+    let propsCont: GlobalAmountProps;
 
     beforeEach(() => {
-        props_pres = {
+        propsPres = {
             total: 0
         };
 
-        props_cont = {
-            bank_accounts: [],
+        propsCont = {
+            bankAccounts: [],
             wallets: [],
             cards: []
         };
@@ -23,13 +23,13 @@ describe('Global Amount component', () => {
 
     describe("when there is no accounts", () => {
         it("presentational renders just with a zero", () => {
-            const wrapper = shallow(<GlobalAmountPresentational {...props_pres} />);
+            const wrapper = shallow(<GlobalAmountPresentational {...propsPres} />);
             expect(wrapper.find(".main-amount").text()).toMatch(
                 "$0.00"
             );
         });
         it("container sends justa a zero", () => {
-            const wrapper = mount(<GlobalAmount {...props_cont}/>);
+            const wrapper = mount(<GlobalAmount {...propsCont}/>);
             expect(wrapper.find(".main-amount").text()).toMatch(
                 "$0.00"
             );
@@ -43,49 +43,54 @@ describe('Global Amount component', () => {
             );
         });
         it("container doesn't change if is the same account", () => {
-            const wrapper = shallow(<GlobalAmount {...props_cont}/>);
+            const wrapper = shallow(<GlobalAmount {...propsCont}/>);
             expect(wrapper.state('total')).toEqual(0);
-            props_cont.bank_accounts = [{
+            propsCont.bankAccounts = [{
                 "balance": 10,
-                "bank": "test_bank",
-                "source": {"id": "some_id", "name": "some_name"}
+                "bank": "test-bank",
+                "isInvestment": true,
+                "name": "test-account",
+                "id": "some-id"
             }]
-            props_cont.wallets = [{
+            propsCont.wallets = [{
                 "balance": 15,
-                "bank": "Wallet",
-                "source": {"id": "some_id", "name": "some_name"}
+                "name": "Wallet",
+                "id": "some-id"
             },{
                 "balance": 11.34,
-                "bank": "Wallet",
-                "source": {"id": "some_id", "name": "some_name"}
+                "name": "Wallet",
+                "id": "some-id"
             }]
-            wrapper.setProps({...props_cont});
+            wrapper.setProps({...propsCont});
             expect(wrapper.state('total')).toEqual(36.34);
         });
         it("container makes correctly the sum", () => {
-            props_cont.bank_accounts = [{
+            propsCont.bankAccounts = [{
                 "balance": 10,
-                "bank": "test_bank",
-                "source": {"id": "some_id", "name": "some_name"}
+                "bank": "test-bank",
+                "isInvestment": true,
+                "name": "test-account",
+                "id": "some-id"
             }]
-            props_cont.wallets = [{
+            propsCont.wallets = [{
                 "balance": 15,
-                "bank": "Wallet",
-                "source": {"id": "some_id", "name": "some_name"}
+                "name": "Wallet",
+                "id": "some-id"
             },{
                 "balance": 11.34,
-                "bank": "Wallet",
-                "source": {"id": "some_id", "name": "some_name"}
-            }]
-            props_cont.cards = [{
+                "name": "Wallet",
+                "id": "some-id"
+            }];
+            propsCont.cards = [{
                 "cut": 0,
                 "pay": 0,
                 "bank": "card-bank",
-                "used": 20,
-                "source": {"id": "some_id", "name": "some_name"},
-                "credit": 5000
-            }]
-            const wrapper = mount(<GlobalAmount {...props_cont}/>);
+                "credit": 5000,
+                "balance": 4980,
+                "id": "some-id",
+                "name": "some-name"
+            }];
+            const wrapper = mount(<GlobalAmount {...propsCont}/>);
             expect(wrapper.find(".main-amount").text()).toMatch(
                 "$16.34"
             );

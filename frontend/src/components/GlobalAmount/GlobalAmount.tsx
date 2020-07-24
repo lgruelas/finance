@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { BankAccount, Card, Wallet, Account } from './../../models/accounts';
+import { Account, Card } from './../../models/accounts';
 import { GlobalAmountPresentational } from './GlobalAmountPresentational';
 import { GlobalAmountProps as Props } from './Props';
 import { GlobalAmountState as State } from './State';
@@ -14,18 +14,25 @@ export class GlobalAmount extends React.Component <Props, State>{
         }
     }
 
-    sumAccountArray(accounts: Account[], property: string): number {
+    sumAccountArray(accounts: Array<Account>): number {
         if (accounts) {
-            return accounts.reduce<number>((a: number, b: Account) => a + b[property], 0);
+            return accounts.reduce<number>((a: number, b: Account) => a + b.balance, 0);
+        }
+        return 0;
+    }
+
+    sumCardAccountArray(accounts: Array<Card>): number {
+        if (accounts) {
+            return accounts.reduce<number>((a: number, b: Card) => a + (b.credit - b.balance), 0);
         }
         return 0;
     }
 
     calculateTotal(accounts: Props): number {
         let counter: number = 0;
-        counter += this.sumAccountArray(accounts.bank_accounts, "balance");
-        counter += this.sumAccountArray(accounts.wallets, "balance");
-        counter -= this.sumAccountArray(accounts.cards, "used");
+        counter += this.sumAccountArray(accounts.bankAccounts);
+        counter += this.sumAccountArray(accounts.wallets);
+        counter -= this.sumCardAccountArray(accounts.cards);
         return counter;
     }
 

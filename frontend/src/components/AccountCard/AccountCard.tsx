@@ -1,15 +1,12 @@
 import React from 'react';
-import { Card, BankAccount, Account } from './../../models/accounts';
+import { Card, BankAccount, Account, DigitalAccount } from './../../models/accounts';
 import { AccountCardPresentational } from './AccountCardPresentational';
+import { AccountCardProps as Props } from './Props';
 import './AccountCard.css';
 
 
-interface Props {
-    account: Account
-}
-
 function determineIfCard(toBeDetermined: Account): toBeDetermined is Card {
-    if((toBeDetermined as Card).used != null){
+    if((toBeDetermined as Card).cut != null){
         return true
     }
     return false
@@ -23,14 +20,6 @@ function determineIfBankAccount(toBeDetermined: Account): toBeDetermined is Bank
 }
 
 export const AccountCard: React.SFC<Props> = (props) => {
-    const getName = (color: string, account: Account): string => {
-        if (color === "blue") {
-            return "Wallet"
-        } else {
-            return account.bank
-        }
-    }
-
     const formatCurrency = (input: number) : string => {
         return (new Intl.NumberFormat('en-US', {
             style: 'currency',
@@ -40,9 +29,9 @@ export const AccountCard: React.SFC<Props> = (props) => {
 
     const color: string = determineIfCard(props.account) ? "red" : determineIfBankAccount(props.account) ? "green" : "blue";
     return (
-        <AccountCardPresentational name={props.account.source.name}
-                                    bank={getName(color, props.account)}
-                                    amount={determineIfCard(props.account) ? formatCurrency(props.account.used) : formatCurrency(props.account.balance)}
+        <AccountCardPresentational name={props.account.name}
+                                    bank={(props.account as DigitalAccount).bank || "Wallet"}
+                                    amount={determineIfCard(props.account) ? formatCurrency(props.account.credit - props.account.balance) : formatCurrency(props.account.balance)}
                                     color={color}/>
     );
 }

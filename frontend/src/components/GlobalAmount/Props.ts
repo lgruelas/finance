@@ -6,7 +6,7 @@ export type GlobalAmountPresentationalProps = {
 }
 
 export type GlobalAmountProps = {
-    bank_accounts: Array<BankAccount>;
+    bankAccounts: Array<BankAccount>;
     wallets: Array<Wallet>;
     cards: Array<Card>;
 }

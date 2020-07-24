@@ -1,7 +1,5 @@
-import { Source } from './Source';
+import { DigitalAccount } from './Account';
 
-export interface BankAccount {
-    balance: number,
-    bank: string,
-    source: Source
+export interface BankAccount extends DigitalAccount {
+    isInvestment: boolean
 }
