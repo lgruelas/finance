@@ -1,15 +1,8 @@
 import React from 'react';
 import { Button } from 'reactstrap';
 import { AddExpenseModal } from './AddExpenseModal';
-import { CategoriesAccounts } from './../../models/common';
-
-type State = {
-    isModalOpen: boolean;
-}
-
-interface Props extends CategoriesAccounts {
-    refresh: () => void
-}
+import { AddExpenseButtonProps as Props } from './Props';
+import { AddExpenseButtonState as State } from './State';
 
 export class AddExpenseButton extends React.Component<Props, State> {
     constructor(props: Props) {
@@ -29,7 +22,7 @@ export class AddExpenseButton extends React.Component<Props, State> {
     render() {
         return (
             <div className="button-modal-container">
-                <Button onClick={this.toggle}>Add Expense</Button>
+                <Button onClick={this.toggle} className="add-expense-button">Add Expense</Button>
                 <AddExpenseModal refresh={this.props.refresh} open={this.state.isModalOpen} toggle={this.toggle} categories={this.props.categories} accounts={this.props.accounts}/>
             </div>
         );

@@ -51,7 +51,7 @@ describe('Global Amount component', () => {
                 "isInvestment": true,
                 "name": "test-account",
                 "id": "some-id"
-            }]
+            }];
             propsCont.wallets = [{
                 "balance": 15,
                 "name": "Wallet",
@@ -60,7 +60,7 @@ describe('Global Amount component', () => {
                 "balance": 11.34,
                 "name": "Wallet",
                 "id": "some-id"
-            }]
+            }];
             wrapper.setProps({...propsCont});
             expect(wrapper.state('total')).toEqual(36.34);
         });
@@ -71,7 +71,7 @@ describe('Global Amount component', () => {
                 "isInvestment": true,
                 "name": "test-account",
                 "id": "some-id"
-            }]
+            }];
             propsCont.wallets = [{
                 "balance": 15,
                 "name": "Wallet",

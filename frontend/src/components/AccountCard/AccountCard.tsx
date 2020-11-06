@@ -6,7 +6,7 @@ import './AccountCard.css';
 
 
 function determineIfCard(toBeDetermined: Account): toBeDetermined is Card {
-    if((toBeDetermined as Card).cut != null){
+    if((toBeDetermined as Card).cut){
         return true
     }
     return false
