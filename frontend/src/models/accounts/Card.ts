@@ -1,10 +1,7 @@
-import { Source } from './Source';
+import { DigitalAccount } from './Account';
 
-export interface Card {
+export interface Card extends DigitalAccount {
     cut: number,
     pay: number,
-    bank: string,
-    credit: number,
-    used: number,
-    source: Source
+    credit: number
 }

@@ -1,12 +1,7 @@
 import React from 'react';
 import { Row, Col } from 'reactstrap';
+import { AccountCardPresentationalProps as Props } from './Props';
 
-type Props = {
-    color: string;
-    amount: string;
-    name: string;
-    bank: string;
-}
 
 export const AccountCardPresentational: React.SFC<Props> = props => {
     return (

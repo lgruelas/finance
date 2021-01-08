@@ -1,5 +1,7 @@
 {
-  "extends": [],
+  "extends": [
+    "plugin:react/recommended"
+  ],
   "defaultSeverity": "warning",
   "linterOptions": {
     "exclude": [

@@ -4,13 +4,13 @@ import { BrowserRouter } from 'react-router-dom';
 import { Main } from './Main';
 import './App.css';
 
-require('dotenv').config()
+require('dotenv').config();
 
 export class App extends React.Component {
   public render() {
     return (
       <div className="App">
-          <BrowserRouter>
+        <BrowserRouter>
           <Navigation />
           <Main />
         </BrowserRouter>

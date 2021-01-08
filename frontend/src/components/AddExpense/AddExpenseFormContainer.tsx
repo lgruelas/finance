@@ -19,7 +19,7 @@ export class AddExpenseFormContainer extends React.Component<Props,Expense> {
         this.state = {
             amount: NaN,
             description: '',
-            account: this.props.accounts[0].source.id,
+            account: this.props.accounts[0].id,
             category: this.props.categories[0].id,
             is_payed: true,
             date: dateFormat(today)
