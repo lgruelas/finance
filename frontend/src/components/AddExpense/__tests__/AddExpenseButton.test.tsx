@@ -30,7 +30,7 @@ describe("Add expense button component", () => {
             expect(wrapper.state("isModalOpen")).toBeFalsy();
             console.log(wrapper.debug());
             console.log(wrapper.find(".cancel-button"));
-            wrapper.find(".add-expense-button").simulate("click");
+            wrapper.find("Button.add-expense-button").simulate("click");
             expect(wrapper.state("isModalOpen")).toBeTruthy();
             wrapper.find(".cancel-button").simulate("click");
             expect(wrapper.state("isModalOpen")).toBeFalsy();
