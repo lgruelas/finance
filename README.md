@@ -93,7 +93,7 @@ This project is licensed under the GPL 3 License - see the [LICENSE.md](LICENSE.
 
 ## Project Status
 
-I'm starting it.
+I'm starting it, currently doing a rewrite.
 
 ## Versioning
 

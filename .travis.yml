@@ -22,25 +22,25 @@ before_install:
   - pip install codecov
 install:
   - cd backend
-  - mv backend/settings/example.py backend/settings/dev.py
-  - cd ..
-  - mv db/.env.example db/.env
-  - mv frontend/.env.docker.example frontend/.env
+  #- mv backend/settings/example.py backend/settings/dev.py
+  #- cd ..
+  #- mv db/.env.example db/.env
+  #- mv frontend/.env.docker.example frontend/.env
   - python make_env_codecov.py
-  - docker-compose up -d --build
-  - bash -c "./backend/wait-for-it.sh localhost:9090"
-before_script:
-  - sleep 15
-  - docker-compose exec worker flake8 "." "--statistics"
-  - docker-compose exec worker coverage "erase"
-  - docker-compose exec web npm "run" "coverage"
-script: docker-compose exec worker coverage "run" "manage.py" "test" "-v 2"
-after_success:
-  - docker-compose exec worker coverage "xml" "-i"
-  - wc -l backend/coverage.xml
-  - cd backend
-  - codecov -X pycov
-  - cd ../frontend
-  - codecov
-after_script:
-  - docker-compose down
+  #- docker-compose up -d --build
+  #- bash -c "./backend/wait-for-it.sh localhost:9090"
+#before_script:
+  #- sleep 15
+  #- docker-compose exec worker flake8 "." "--statistics"
+  #- docker-compose exec worker coverage "erase"
+  #- docker-compose exec web npm "run" "coverage"
+#script: docker-compose exec worker coverage "run" "manage.py" "test" "-v 2"
+#after_success:
+  #- docker-compose exec worker coverage "xml" "-i"
+  #- wc -l backend/coverage.xml
+  #- cd backend
+  #- codecov -X pycov
+  #- cd ../frontend
+  #- codecov
+#after_script:
+  #- docker-compose down
