@@ -21,7 +21,7 @@ before_install:
   - export ci_env=`bash <(curl -s https://codecov.io/env)`
   - pip install codecov
 install:
-  - cd backend
+  #- cd backend
   #- mv backend/settings/example.py backend/settings/dev.py
   #- cd ..
   #- mv db/.env.example db/.env
