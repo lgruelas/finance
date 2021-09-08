@@ -12,7 +12,7 @@
 
 This project has been made only for study porpouses, it allows you to administrate budgets for each category of your expenses, manage your accounts and so on, later on I might upload a demo video, for now it is under construction.
 
-There are two ways to set it up for use and for development, using a regular local env (now deprecated, but you can still see the instructions [here](htts://github.com/lgruelas/finance/blob/master/LOCAL-README.md)) and a docker environment.
+It uses docker for local usage and local development, there is a storic version that uses a local environment that you can find on older commits prior version 0.1.0.
 
 ### Prerequisites
 
@@ -25,6 +25,12 @@ For all the configurations you should keep an eye in 3 files:
 -   `frontend/.env.docker.example` - please rename it to `.env`
 -   `backend/backend/settings/example.py` - please rename it to `dev.py` and fill as required.
 -   Create an empty file at root called `.env.codecov`, this is needed in the CI env.
+
+All this should be done with
+```bash
+chmod +x devenv.sh
+./devenv.sh
+```
 
 Then you just need to build the images and containers, this is done just once with:
 
@@ -68,7 +74,7 @@ The main URL is:
 
 The URL to communicate with the API is, by default:
 
--   `http://localhost:9090/api/v1/`
+-   `http://localhost:9090/api/v2/`
 
 You can see the documentation at:
 
@@ -93,7 +99,7 @@ This project is licensed under the GPL 3 License - see the [LICENSE.md](LICENSE.
 
 ## Project Status
 
-I'm starting it.
+I'm starting it, currently doing a rewrite.
 
 ## Versioning
 
