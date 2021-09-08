@@ -3,8 +3,8 @@
 # TODO: (lgruelas) Add cli usage, init, check, down.
 
 DB_ENV=db/.env
-BE_ENV=backend/backend/settings/dev.py
-FE_ENV=frontend/.env
+#BE_ENV=backend/backend/settings/dev.py
+#FE_ENV=frontend/.env
 
 if test -f "$DB_ENV"; then
     echo "Please clean your environment, cannot init."
