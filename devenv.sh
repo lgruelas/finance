@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# TODO: (lgruelas) Add cli usage, init, check, down.
+
 DB_ENV=db/.env
 BE_ENV=backend/backend/settings/dev.py
 FE_ENV=frontend/.env

@@ -16,12 +16,12 @@ before_install:
   - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
   - sudo rm /usr/local/bin/docker-compose
   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
-  - chmod +x docker-compose init.sh
+  - chmod +x docker-compose devenv.sh
   - sudo mv docker-compose /usr/local/bin
   - export ci_env=`bash <(curl -s https://codecov.io/env)`
   - pip install codecov
 install:
-  - ./init.sh
+  - ./devenv.sh
   - python make_env_codecov.py  # Add this to init file
   - docker-compose up -d --build
   - bash -c "./backend/wait-for-it.sh localhost:9090"
