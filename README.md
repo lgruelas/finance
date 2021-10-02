@@ -29,8 +29,10 @@ For all the configurations you should keep an eye in 3 files:
 All this should be done with
 ```bash
 chmod +x devenv.sh
-./devenv.sh
+./devenv.sh init
 ```
+
+You also can use the commands `./devnev.sh check` and `./devenv.sh down` to check the status or erase the `.env` files.
 
 Then you just need to build the images and containers, this is done just once with:
 

@@ -21,7 +21,7 @@ before_install:
   - export ci_env=`bash <(curl -s https://codecov.io/env)`
   - pip install codecov
 install:
-  - ./devenv.sh
+  - ./devenv.sh init
   - python make_env_codecov.py  # Add this to init file
   - docker-compose up -d --build
   - bash -c "./backend/wait-for-it.sh localhost:9090"
