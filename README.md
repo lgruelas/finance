@@ -84,8 +84,8 @@ You can see the documentation at:
 
 ## Built With
 
--   [Python](https://www.python.org/downloads/)
--   [Django](https://www.djangoproject.com/download/)
+-   [Python](https://www.python.org/downloads/) 3.7
+-   [Django](https://www.djangoproject.com/download/) 3.2
 -   [Typescript](https://www.typescriptlang.org/index.html#download-links)
 -   [React](https://reactjs.org/)
 -   [Docker](https://www.docker.com/)
@@ -115,4 +115,3 @@ You can always check the [CHANGELOG](https://github.com/lgruelas/finance/blob/ma
 ## Contributing
 
 All contribution is thanked and encouraged, just follow [these lines](https://github.com/lgruelas/finance/blob/master/CONTRIBUTING.md).
-
