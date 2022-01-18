@@ -30,3 +30,6 @@ CORS_ORIGIN_WHITELIST = (
 INSTALLED_APPS = INSTALLED_APPS + [
     'django_extensions',
 ]
+
+MEDIA_URL = '/static_media/media/'
+MEDIA_ROOT = 'static_media/media/'

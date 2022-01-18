@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## Unreleased
+Add a functional API to work with accounts APP.
 
 ## 0.1.1 - 2021-09-07
 This minor version removed legacy folder, as it can be found on the git history and it keeps cleaner the repo.
