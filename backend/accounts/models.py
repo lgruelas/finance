@@ -115,6 +115,10 @@ class Category(models.Model):
     )
     category_type = models.CharField(max_length=10, choices=CategoryType.choices)
     name = models.CharField(max_length=120)
+    monthly_budget = models.DecimalField(
+        decimal_places=4, max_digits=12, null=True, blank=True,
+        help_text="Monthly budget cap for expense categories",
+    )
     date_created = models.DateTimeField(auto_now_add=True)
 
     class Meta:

@@ -205,3 +205,80 @@ class TestPagination:
         assert response.status_code == 200
         assert "count" in response.data
         assert "results" in response.data
+
+
+SUMMARY_URL = "/api/v1/summary/"
+BUDGET_URL = "/api/v1/budget/"
+
+
+@pytest.mark.django_db
+class TestSummaryView:
+    def test_summary_returns_balance(self, auth_client):
+        client, user = auth_client
+        SavingsAccountFactory(user=user, balance=Decimal("5000"))
+        CreditCardAccountFactory(user=user, balance=Decimal("1000"))
+        response = client.get(SUMMARY_URL)
+        assert response.status_code == 200
+        assert "total_balance" in response.data
+        assert "by_type" in response.data
+        # Savings adds, credit card subtracts
+        assert Decimal(response.data["total_balance"]) == Decimal("4000")
+
+    def test_summary_empty(self, auth_client):
+        client, user = auth_client
+        response = client.get(SUMMARY_URL)
+        assert response.status_code == 200
+        assert Decimal(response.data["total_balance"]) == Decimal("0")
+        assert response.data["by_type"] == []
+
+    def test_summary_unauthenticated(self, api_client):
+        response = api_client.get(SUMMARY_URL)
+        assert response.status_code == 401
+
+
+@pytest.mark.django_db
+class TestBudgetView:
+    def test_budget_current_month(self, auth_client):
+        client, user = auth_client
+        category = ExpenseCategoryFactory(user=user, monthly_budget=Decimal("1000"))
+        account = SavingsAccountFactory(user=user)
+        Expense.objects.create(
+            user=user, account=account, category=category,
+            amount=Decimal("300"), date="2025-06-15", description="test",
+        )
+        response = client.get(BUDGET_URL, {"year": 2025, "month": 6})
+        assert response.status_code == 200
+        assert response.data["year"] == 2025
+        assert response.data["month"] == 6
+        assert Decimal(response.data["total_spent"]) == Decimal("300")
+        assert Decimal(response.data["total_budget"]) == Decimal("1000")
+        assert len(response.data["categories"]) == 1
+        cat = response.data["categories"][0]
+        assert Decimal(cat["spent"]) == Decimal("300")
+        assert cat["percentage"] == 30.0
+
+    def test_budget_no_expenses(self, auth_client):
+        client, user = auth_client
+        ExpenseCategoryFactory(user=user, monthly_budget=Decimal("500"))
+        response = client.get(BUDGET_URL, {"year": 2025, "month": 1})
+        assert response.status_code == 200
+        assert Decimal(response.data["total_spent"]) == Decimal("0")
+
+    def test_budget_filters_by_month(self, auth_client):
+        client, user = auth_client
+        category = ExpenseCategoryFactory(user=user, monthly_budget=Decimal("1000"))
+        account = SavingsAccountFactory(user=user)
+        Expense.objects.create(
+            user=user, account=account, category=category,
+            amount=Decimal("100"), date="2025-01-15", description="jan",
+        )
+        Expense.objects.create(
+            user=user, account=account, category=category,
+            amount=Decimal("200"), date="2025-02-15", description="feb",
+        )
+        response = client.get(BUDGET_URL, {"year": 2025, "month": 1})
+        assert Decimal(response.data["total_spent"]) == Decimal("100")
+
+    def test_budget_unauthenticated(self, api_client):
+        response = api_client.get(BUDGET_URL)
+        assert response.status_code == 401

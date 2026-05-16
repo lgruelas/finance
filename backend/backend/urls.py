@@ -7,11 +7,13 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from accounts.views import (
     AccountViewSet,
+    BudgetView,
     CategoryViewSet,
     ExpenseViewSet,
     IncomeViewSet,
     InstitutionViewSet,
     RegisterView,
+    SummaryView,
     TransferViewSet,
 )
 
@@ -28,6 +30,8 @@ urlpatterns = [
     path("api/v1/auth/register/", RegisterView.as_view(), name="auth-register"),
     path("api/v1/auth/login/", TokenObtainPairView.as_view(), name="auth-login"),
     path("api/v1/auth/refresh/", TokenRefreshView.as_view(), name="auth-refresh"),
+    path("api/v1/summary/", SummaryView.as_view(), name="summary"),
+    path("api/v1/budget/", BudgetView.as_view(), name="budget"),
     path("api/v1/", include(router.urls)),
 ]
 

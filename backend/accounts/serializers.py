@@ -1,6 +1,9 @@
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
+from django.db.models import Sum
+from django.utils.dateparse import parse_date
+
 from .models import Account, Category, Expense, Income, Institution, Transfer, User
 
 
@@ -86,7 +89,7 @@ class AccountSerializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ["id", "category_type", "name", "date_created"]
+        fields = ["id", "category_type", "name", "monthly_budget", "date_created"]
         read_only_fields = ["id", "date_created"]
 
     def validate(self, data):
@@ -163,3 +166,30 @@ class TransferSerializer(serializers.ModelSerializer):
         if data["account_to"].user != user:
             raise serializers.ValidationError({"account_to": "Account does not belong to this user."})
         return data
+
+
+class AccountSummarySerializer(serializers.Serializer):
+    account_type = serializers.CharField()
+    total_balance = serializers.DecimalField(decimal_places=4, max_digits=12)
+    count = serializers.IntegerField()
+
+
+class SummarySerializer(serializers.Serializer):
+    total_balance = serializers.DecimalField(decimal_places=4, max_digits=12)
+    by_type = AccountSummarySerializer(many=True)
+
+
+class CategoryBudgetSerializer(serializers.Serializer):
+    category_id = serializers.UUIDField()
+    category_name = serializers.CharField()
+    monthly_budget = serializers.DecimalField(decimal_places=4, max_digits=12, allow_null=True)
+    spent = serializers.DecimalField(decimal_places=4, max_digits=12)
+    percentage = serializers.FloatField()
+
+
+class BudgetSerializer(serializers.Serializer):
+    year = serializers.IntegerField()
+    month = serializers.IntegerField()
+    total_spent = serializers.DecimalField(decimal_places=4, max_digits=12)
+    total_budget = serializers.DecimalField(decimal_places=4, max_digits=12)
+    categories = CategoryBudgetSerializer(many=True)
