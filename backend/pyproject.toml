@@ -4,7 +4,7 @@ version = "0.2.0"
 description = "Personal finance management API"
 requires-python = ">=3.12"
 dependencies = [
-    "Django>=5.1,<5.2",
+    "Django>=5.1,<6.1",
     "djangorestframework>=3.15,<4",
     "djangorestframework-simplejwt>=5.3,<6",
     "django-cors-headers>=4.4,<5",
