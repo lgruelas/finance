@@ -76,7 +76,7 @@ The main URL is:
 
 The URL to communicate with the API is, by default:
 
--   `http://localhost:9090/api/v2/`
+-   `http://localhost:9090/api/v1/`
 
 You can see the documentation at:
 

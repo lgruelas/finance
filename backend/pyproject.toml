@@ -1,0 +1,36 @@
+[project]
+name = "finance-backend"
+version = "0.2.0"
+description = "Personal finance management API"
+requires-python = ">=3.12"
+dependencies = [
+    "Django>=5.1,<5.2",
+    "djangorestframework>=3.15,<4",
+    "djangorestframework-simplejwt>=5.3,<6",
+    "django-cors-headers>=4.4,<5",
+    "django-filter>=24,<25",
+    "psycopg[binary]>=3.2,<4",
+    "Pillow>=11,<12",
+    "gunicorn>=22,<23",
+]
+
+[dependency-groups]
+dev = [
+    "django-extensions>=3.2,<4",
+    "ipython",
+    "flake8>=7,<8",
+    "coverage>=7.5,<8",
+    "pytest>=8,<9",
+    "pytest-django>=4.8,<5",
+    "factory-boy>=3.3,<4",
+]
+
+[tool.uv]
+required-version = ">=0.11"
+
+[tool.hatch.build.targets.wheel]
+packages = ["backend", "accounts"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

@@ -1,5 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv/
+
 # Environment files
 backend/settings/*.py
-!backend/settings/example.py
+!backend/settings/dev.py
 !backend/settings/base.py
 !backend/settings/__init__.py
+!backend/settings/prod.py
+!backend/settings/test.py
+
+# Django
+*.sqlite3
+media/
