@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
 
   db:
@@ -20,7 +18,8 @@ services:
       - PYTHONUNBUFFERED=1
       - DJANGO_DEBUG_DOCKER=True
     volumes:
-      - "./backend:/usr/src/app"
+      - "./backend:/usr/src/app:z"
+      - /usr/src/app/.venv
     depends_on:
       - db
     networks:
@@ -32,10 +31,11 @@ services:
     container_name: react
     build: ./frontend
     volumes:
-      - "./frontend:/usr/src/finance/app"
+      - "./frontend:/usr/src/finance/app:z"
       - /usr/src/finance/node_modules
     env_file:
-      - ./frontend/.env
+      - path: ./frontend/.env
+        required: false
     ports:
       - 8080:5100
     stdin_open: true

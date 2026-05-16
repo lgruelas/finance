@@ -12,6 +12,7 @@ backend/settings/*.py
 !backend/settings/base.py
 !backend/settings/__init__.py
 !backend/settings/prod.py
+!backend/settings/test.py
 
 # Django
 *.sqlite3

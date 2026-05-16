@@ -25,6 +25,9 @@ class Institution(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        ordering = ["name"]
+
 
 class Account(models.Model):
     class AccountType(models.TextChoices):
@@ -97,6 +100,9 @@ class Account(models.Model):
                     "Investment accounts must not have credit card or savings fields."
                 )
 
+    class Meta:
+        ordering = ["name"]
+
 
 class Category(models.Model):
     class CategoryType(models.TextChoices):
@@ -113,6 +119,7 @@ class Category(models.Model):
 
     class Meta:
         verbose_name_plural = "categories"
+        ordering = ["name"]
         constraints = [
             models.UniqueConstraint(
                 fields=["user", "category_type", "name"],
