@@ -1,51 +1,47 @@
-version: '3'
+version: '3.8'
 
 services:
 
-    db:
-        image: postgres
-        container_name: postgresDB
-        env_file:
-            - ./db/.env
-        volumes:
-            - "postgres-data:/var/lib/postgresql/data"
-        networks:
-            - finance-network
+  db:
+    image: postgres:16
+    container_name: postgresDB
+    env_file:
+      - ./db/.env
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - finance-network
 
-    worker:
-        container_name: django
-        command: bash -c "./wait-for-it.sh db:5432 -- && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
-        build: ./backend
-        environment:
-            - PYTHONUNBUFFERED=1
-            - DJANGO_DEBUG_DOCKER=True
-        env_file:
-            - ./.env.codecov
-        volumes:
-            - "./backend:/usr/src/finance"
-        links:
-            - db:db
-        depends_on:
-            - db
-        networks:
-            - finance-network
-        ports:
-            - 9090:8000
+  worker:
+    container_name: django
+    command: bash -c "./wait-for-it.sh db:5432 -- && uv run python manage.py migrate && uv run python manage.py runserver 0.0.0.0:8000"
+    build: ./backend
+    environment:
+      - PYTHONUNBUFFERED=1
+      - DJANGO_DEBUG_DOCKER=True
+    volumes:
+      - "./backend:/usr/src/app"
+    depends_on:
+      - db
+    networks:
+      - finance-network
+    ports:
+      - 9090:8000
 
-    web:
-        container_name: react
-        build: ./frontend
-        volumes:
-            - "./frontend:/usr/src/finance/app"
-            - /usr/src/finance/node_modules
-        env_file:
-            - ./frontend/.env
-        ports:
-            - 8080:5100
-        stdin_open: true
+  web:
+    container_name: react
+    build: ./frontend
+    volumes:
+      - "./frontend:/usr/src/finance/app"
+      - /usr/src/finance/node_modules
+    env_file:
+      - ./frontend/.env
+    ports:
+      - 8080:5100
+    stdin_open: true
 
 volumes:
-    postgres-data:
+  postgres-data:
 
 networks:
-    finance-network:
+  finance-network:
